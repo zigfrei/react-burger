@@ -1,0 +1,19 @@
+.name {
+  max-height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cost {
+  display: flex;
+  justify-content: center;
+}
+
+.main {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}

@@ -1,31 +1,21 @@
 import React from 'react';
-// import logo from './logo.svg';
 import './App.css';
-// import { render } from '@testing-library/react';
-import AppHeader from './components/AppHeader/appHeader.js'
+import AppHeader from './components/AppHeader/appHeader.js';
+import BurgerIngredients from "./components/BurgerIngredients/burgerIngredients.js";
+import app from './app.module.css';
+import {data} from './utils/data.js';
 
 
 class App extends React.Component {
+  state = {data}
   render(){
   return (
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       Edit <code>src/App.tsx</code> and save to reload.
-    //     </p>
-    //     <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a>
-    //   </header>
-    // </div>
     <div className="App">
-  <AppHeader />
+  <header><AppHeader /></header>
+  <main className={app.main}>
+  <BurgerIngredients data = {this.state.data} />
+<div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem cum quis doloribus libero sit ducimus! Laudantium similique amet, labore rem nisi fugiat quisquam quod et rerum, praesentium porro officiis quasi!</div>
+  </main>
     </div>
   );
   }
