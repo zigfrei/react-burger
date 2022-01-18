@@ -37,5 +37,6 @@ export default function IngredientsScrollbar({ ingredientsData }) {
     </ul>
   );
 }
-{
-}
+
+
+

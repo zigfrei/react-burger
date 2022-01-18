@@ -1,7 +1,7 @@
 .section {
   margin: 0;
   padding: 0;
-  max-height: 700px;
+  max-height: 550px;
   overflow-y: auto;
   direction: ltr;
   scrollbar-color: #d4aa70 #e4e4e4;
@@ -26,3 +26,8 @@
   grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
   justify-items: center;
 }
+
+@media screen and (max-width: 1000px) {
+  .section  {
+    max-height: 300px;
+  }}

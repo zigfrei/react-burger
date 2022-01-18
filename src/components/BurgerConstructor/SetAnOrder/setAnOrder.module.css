@@ -1,0 +1,16 @@
+.main {
+  display: grid;
+  justify-content: end;
+  grid-auto-flow: column;
+  align-items: center;
+}
+
+.main svg {
+  width: 33px;
+  height: 33px;
+}
+
+.cost {
+  display: flex;
+  justify-content: center;
+}
