@@ -1,6 +1,7 @@
 import IngredientsTab from "./IngredientsTab/ingredientsTab.js";
 import IngredientsScrollbar from "./IngredientsScrollbar/ingredientsScrollbar.js";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import { menuItemPropTypes } from "../../utils/constants.js";
 
 export default function BurgerIngredients({ data }) {
   return (
@@ -11,7 +12,6 @@ export default function BurgerIngredients({ data }) {
     </section>
   );
 }
-
 BurgerIngredients.propTypes = {
-  data: PropTypes.array.isRequired
-}
+  data: PropTypes.arrayOf(menuItemPropTypes.isRequired),
+};

@@ -1,6 +1,8 @@
 import templateIngredient from "./templateIngredient.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
+import { menuItemPropTypes } from "../../../utils/constants.js";
 
 export default function TemplateIngredient({ ingredient }) {
   const image = <img src={ingredient.image} alt={ingredient.name} />;
@@ -18,3 +20,6 @@ export default function TemplateIngredient({ ingredient }) {
     </li>
   );
 }
+TemplateIngredient.propTypes = {
+  ingredient: menuItemPropTypes.isRequired,
+};

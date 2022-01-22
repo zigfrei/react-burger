@@ -2,7 +2,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import ingredientsTab from "./ingredientsTab.module.css";
 
-export default function IngredientsTab(props) {
+export default function IngredientsTab() {
   const [current, setCurrent] = React.useState("Булки");
   return (
     <div className={`${ingredientsTab.main} mt-5`}>

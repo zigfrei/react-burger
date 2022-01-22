@@ -1,14 +1,16 @@
 import ingredientsScrollbar from "./ingredientsScrollbar.module.css";
 import TemplateIngredient from "../TemplateIngredient/templateIngredient.js";
+import PropTypes from "prop-types";
+import { menuItemPropTypes } from "../../../utils/constants.js";
 
 export default function IngredientsScrollbar({ ingredientsData }) {
   const bun = [];
   const sauce = [];
   const filling = [];
   ingredientsData.forEach((ingredient) => {
-    if (ingredient.type == "bun") {
+    if (ingredient.type === "bun") {
       bun.push(ingredient);
-    } else if (ingredient.type == "sauce") {
+    } else if (ingredient.type === "sauce") {
       sauce.push(ingredient);
     } else {
       filling.push(ingredient);
@@ -18,25 +20,25 @@ export default function IngredientsScrollbar({ ingredientsData }) {
     <ul className={ingredientsScrollbar.section}>
       <h2 className="text text_type_main-medium mt-10 mb-6">Булки</h2>
       <div className={`${ingredientsScrollbar.element} pl-4`}>
-        {bun.map((ingredient, index) => (
-          <TemplateIngredient key={index} ingredient={ingredient} />
+        {bun.map((ingredient) => (
+          <TemplateIngredient key={ingredient._id} ingredient={ingredient} />
         ))}
       </div>
       <h2 className="text text_type_main-medium mt-10 mb-6">Соусы</h2>
       <div className={`${ingredientsScrollbar.element} pl-4`}>
-        {sauce.map((ingredient, index) => (
-          <TemplateIngredient key={index} ingredient={ingredient} />
+        {sauce.map((ingredient) => (
+          <TemplateIngredient key={ingredient._id} ingredient={ingredient} />
         ))}
       </div>
       <h2 className="text text_type_main-medium mt-10 mb-6">Начинки</h2>
       <div className={`${ingredientsScrollbar.element} pl-4`}>
-        {filling.map((ingredient, index) => (
-          <TemplateIngredient key={index} ingredient={ingredient} />
+        {filling.map((ingredient) => (
+          <TemplateIngredient key={ingredient._id} ingredient={ingredient} />
         ))}
       </div>
     </ul>
   );
 }
-
-
-
+IngredientsScrollbar.propTypes = {
+  ingredientsData: PropTypes.arrayOf(menuItemPropTypes.isRequired),
+};

@@ -1,6 +1,7 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import setAnOrder from "./setAnOrder.module.css";
+import PropTypes from "prop-types";
 
 export default function SetAnOrder({ totalCost }) {
   return (
@@ -15,3 +16,6 @@ export default function SetAnOrder({ totalCost }) {
     </div>
   );
 }
+SetAnOrder.propTypes = {
+  totalCost: PropTypes.number.isRequired,
+};

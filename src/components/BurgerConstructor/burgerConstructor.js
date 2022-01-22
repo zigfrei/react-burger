@@ -1,7 +1,8 @@
 import burgerConstructor from "./burgerConstructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import SetAnOrder from "./SetAnOrder/setAnOrder.js";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import { menuItemPropTypes } from "../../utils/constants.js";
 
 export default function BurgerConstructor({ data }) {
   const fill = [
@@ -28,7 +29,6 @@ export default function BurgerConstructor({ data }) {
           {fill.map((ingredient, index) => (
             <li key={index} className={`${burgerConstructor.element} mb-4`}>
               <ConstructorElement
-
                 text={ingredient.name}
                 price={ingredient.price}
                 thumbnail={ingredient.image}
@@ -36,7 +36,6 @@ export default function BurgerConstructor({ data }) {
             </li>
           ))}
         </div>
-
         <ConstructorElement
           type="bottom"
           isLocked={true}
@@ -49,8 +48,6 @@ export default function BurgerConstructor({ data }) {
     </section>
   );
 }
-
-
 BurgerConstructor.propTypes = {
-  data: PropTypes.array.isRequired
-}
+  data: PropTypes.arrayOf(menuItemPropTypes.isRequired),
+};
