@@ -24,6 +24,6 @@ export default function IngredientDetails(ingredient) {
   );
 }
 
-IngredientDetails.PropType = {
-  ingredient: menuItemPropTypes.isRequired,
+IngredientDetails.propTypes = {
+  ingredient: menuItemPropTypes,
 };

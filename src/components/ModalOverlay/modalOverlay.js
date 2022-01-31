@@ -3,13 +3,10 @@ import PropTypes from "prop-types";
 
 export const ModalOverlay = (props) => {
   return (
-    <section className={modalOverlay.section} onClick={props.onClose}>
-      {props.children}
-    </section>
+    <div className={modalOverlay.main} onClick={props.onClose}></div>
   );
 };
-
-ModalOverlay.PropType = {
+ModalOverlay.propTypes = {
   onClose: PropTypes.func,
   children: PropTypes.element,
 };

@@ -22,22 +22,25 @@ export const Modal = (props) => {
   }, []);
 
   return ReactDOM.createPortal(
-    <ModalOverlay onClose={props.onClose}>
-      <div className={modal.popup} onClick={(e) => e.stopPropagation()}>
-        <div className={"pl-10 pt-10 pr-10 " + modal.header}>
-          <h2 className={"text text_type_main-large "}>{props.title}</h2>
-          <div className={modal.close}>
-            <CloseIcon onClick={props.onClose} />
+    <>
+      <div className={modal.wrapper}>
+        <div className={modal.popup}>
+          <div className={"pl-10 pt-10 pr-10 " + modal.header}>
+            <h2 className={"text text_type_main-large "}>{props.title}</h2>
+            <div className={modal.close}>
+              <CloseIcon onClick={props.onClose} />
+            </div>
           </div>
+          {props.children}
         </div>
-        {props.children}
+        <ModalOverlay onClose={props.onClose} />
       </div>
-    </ModalOverlay>,
+    </>,
     modalRoot
   );
 };
 
-Modal.PropType = {
+Modal.propTypes = {
   onClose: PropTypes.func,
   title: PropTypes.string,
   children: PropTypes.element,
