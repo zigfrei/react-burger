@@ -4,7 +4,7 @@ import BurgerConstructor from "../BurgerConstructor/burgerConstructor.js";
 import app from './app.module.css';
 import React from "react";
 import {baseUrl} from '../../utils/constants.js';
-// import ModalOverlay from '../ModalOverlay/modalOverlay.js';
+import {BurgerFillContext} from '../../utils/burgerContext.js';
 
 
 
@@ -13,39 +13,49 @@ const [state, setState] = React.useState({
   data:[],
   isLoading: true,
 });
-// const [open, setOpen] = React.useState(false);
-
+const[burgerFill, setBurgerFill] = React.useState({});
 
 React.useEffect(()=>{
-  // setOpen(true);
   const getData = async () =>{
     setState({...state, isLoading:true})
+    setBurgerFill({...burgerFill});
     try{
       const res = await fetch(baseUrl);
       if (!res.ok) {
         throw new Error('Ответ сети был не ok.');
       }
     const resData = await res.json();
-    setState({...state, data:resData.data, isLoading:false});
+    setState({data:resData.data, isLoading:false});
+    // setBurgerFill({burgerFill:resData.data});
+
   }
     catch(error){
       console.log('Возникла проблема с вашим fetch запросом: ', error);
     }
   };
   getData();
+  setBurgerFill({burgerFill:state.data});
 }, [])
+// {!state.isLoading && <BurgerConstructor data = {state.data}/>}
+// const content = () => {
+//   return
+//   {burgerFill && <BurgerConstructor/>}
+// }
+// const fillComponent = () =>{
+//   setBurgerFill({...burgerFill, state);
+// }
+
 
 
 
   return (
     <div className={app.page}>
-       {/* <ModalOverlay  message="Hello World!"
-          isOpen={open}
-          onClose={() => setOpen(false)} /> */}
   <header><AppHeader /></header>
   <main className={app.main}>
   {!state.isLoading && <BurgerIngredients data = {state.data} />}
-  {!state.isLoading && <BurgerConstructor data = {state.data}/>}
+  <BurgerFillContext.Provider value={{burgerFill, setBurgerFill}}>
+  {/* {!state.isLoading && <BurgerConstructor/>} */}
+  </BurgerFillContext.Provider>
     </main>
     </div>
   );

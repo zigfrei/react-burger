@@ -3,27 +3,31 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 import SetAnOrder from "./SetAnOrder/setAnOrder.js";
 import PropTypes from "prop-types";
 import { menuItemPropTypes } from "../../utils/constants.js";
+import { BurgerFillContext } from "../../utils/burgerContext.js";
+import { useContext } from "react";
 
-export default function BurgerConstructor({ data }) {
+export default function BurgerConstructor() {
+  const { burgerFill } = useContext(BurgerFillContext);
   const fill = [
-    data[5],
-    data[4],
-    data[7],
-    data[13],
-    data[9],
-    data[8],
-    data[10],
+    burgerFill.data[5],
+    burgerFill.data[4],
+    burgerFill.data[7],
+    burgerFill.data[13],
+    burgerFill.data[9],
+    burgerFill.data[8],
+    burgerFill.data[10],
   ];
   let totalCost = 5999;
+
   return (
     <section className="ml-5 pt-25 pl-4 pr-4">
       <ul className={burgerConstructor.main}>
         <ConstructorElement
           type="top"
           isLocked={true}
-          text={`${data[0].name} (верх)`}
-          price={data[0].price}
-          thumbnail={data[0].image}
+          text={`${ burgerFill.data[0].name} (верх)`}
+          price={ burgerFill.data[0].price}
+          thumbnail={ burgerFill.data[0].image}
         />
         <div className={`${burgerConstructor.fill} mt-4`}>
           {fill.map((ingredient, index) => (
@@ -39,15 +43,15 @@ export default function BurgerConstructor({ data }) {
         <ConstructorElement
           type="bottom"
           isLocked={true}
-          text={`${data[0].name} (низ)`}
-          price={data[0].price}
-          thumbnail={data[0].image}
+          text={`${ burgerFill.data[0].name} (низ)`}
+          price={ burgerFill.data[0].price}
+          thumbnail={ burgerFill.data[0].image}
         />
       </ul>
       <SetAnOrder totalCost={totalCost} />
     </section>
   );
 }
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(menuItemPropTypes.isRequired),
-};
+// BurgerConstructor.propTypes = {
+//   data: PropTypes.arrayOf(menuItemPropTypes.isRequired),
+// };
