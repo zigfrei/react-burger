@@ -16,3 +16,5 @@ export const menuItemPropTypes = PropTypes.shape({
 });
 
 export const baseUrl = "https://norma.nomoreparties.space/api/ingredients";
+
+export const postUrl = "https://norma.nomoreparties.space/api/orders";

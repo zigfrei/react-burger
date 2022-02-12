@@ -13,12 +13,10 @@ const [state, setState] = React.useState({
   data:[],
   isLoading: true,
 });
-const[burgerFill, setBurgerFill] = React.useState({});
-
 React.useEffect(()=>{
   const getData = async () =>{
     setState({...state, isLoading:true})
-    setBurgerFill({...burgerFill});
+
     try{
       const res = await fetch(baseUrl);
       if (!res.ok) {
@@ -26,7 +24,6 @@ React.useEffect(()=>{
       }
     const resData = await res.json();
     setState({data:resData.data, isLoading:false});
-    // setBurgerFill({burgerFill:resData.data});
 
   }
     catch(error){
@@ -34,27 +31,15 @@ React.useEffect(()=>{
     }
   };
   getData();
-  setBurgerFill({burgerFill:state.data});
+
 }, [])
-// {!state.isLoading && <BurgerConstructor data = {state.data}/>}
-// const content = () => {
-//   return
-//   {burgerFill && <BurgerConstructor/>}
-// }
-// const fillComponent = () =>{
-//   setBurgerFill({...burgerFill, state);
-// }
-
-
-
-
   return (
     <div className={app.page}>
   <header><AppHeader /></header>
   <main className={app.main}>
   {!state.isLoading && <BurgerIngredients data = {state.data} />}
-  <BurgerFillContext.Provider value={{burgerFill, setBurgerFill}}>
-  {/* {!state.isLoading && <BurgerConstructor/>} */}
+  <BurgerFillContext.Provider value={{state, setState}}>
+  {!state.isLoading && <BurgerConstructor/>}
   </BurgerFillContext.Provider>
     </main>
     </div>

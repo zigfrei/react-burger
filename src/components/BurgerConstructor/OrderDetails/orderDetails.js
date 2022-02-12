@@ -1,7 +1,12 @@
 import orderDetails from "./orderDetails.module.css";
 import done from "../../../images/done.png";
+import { BurgerFillContext } from "../../../utils/burgerContext.js";
+import { useContext } from "react";
+import PropTypes from "prop-types";
 
-export default function OrderDetails() {
+export default function OrderDetails({orderNumber}) {
+  const { state } = useContext(BurgerFillContext);
+
   return (
     <>
       <p
@@ -9,7 +14,7 @@ export default function OrderDetails() {
           "text text_type_digits-large mt-4 mb-8 " + orderDetails.number
         }
       >
-        034536
+        {orderNumber}
       </p>
       <p className="text text_type_main-medium mb-15">идентификатор заказа</p>
       <img className="mb-15" src={done} alt="order accepted" />
@@ -22,3 +27,7 @@ export default function OrderDetails() {
     </>
   );
 }
+
+OrderDetails.propTypes = {
+  orderNumber: PropTypes.number.isRequired,
+};
