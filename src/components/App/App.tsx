@@ -4,7 +4,7 @@ import BurgerConstructor from "../BurgerConstructor/burgerConstructor.js";
 import app from './app.module.css';
 import React from "react";
 import {baseUrl} from '../../utils/constants.js';
-import {BurgerFillContext} from '../../utils/burgerContext.js';
+import {BurgerFillContext} from '../../services/burgerContext.js';
 
 
 
@@ -18,7 +18,7 @@ React.useEffect(()=>{
     setState({...state, isLoading:true})
 
     try{
-      const res = await fetch(baseUrl);
+      const res = await fetch(`${baseUrl}ingredients`);
       if (!res.ok) {
         throw new Error('Ответ сети был не ok.');
       }

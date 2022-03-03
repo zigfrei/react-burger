@@ -1,11 +1,11 @@
 import orderDetails from "./orderDetails.module.css";
 import done from "../../../images/done.png";
-import { BurgerFillContext } from "../../../utils/burgerContext.js";
-import { useContext } from "react";
+// import { BurgerFillContext } from "../../../services/burgerContext.js";
+// import { useContext } from "react";
 import PropTypes from "prop-types";
 
 export default function OrderDetails({orderNumber}) {
-  const { state } = useContext(BurgerFillContext);
+  // const { state } = useContext(BurgerFillContext);
 
   return (
     <>

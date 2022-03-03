@@ -5,9 +5,9 @@ import PropTypes from "prop-types";
 import { Modal } from "../../Modal/modal.js";
 import React, { useEffect, useState } from "react";
 import OrderDetails from "../OrderDetails/orderDetails.js";
-import { BurgerFillContext } from "../../../utils/burgerContext.js";
+import { BurgerFillContext } from "../../../services/burgerContext.js";
 import { useContext, useReducer } from "react";
-import { postUrl } from "../../../utils/constants.js";
+import { baseUrl } from "../../../utils/constants.js";
 
 function reducer(sumState, data) {
   let sum = data.reduce(
@@ -22,7 +22,7 @@ export default function SetAnOrder() {
   const { state } = useContext(BurgerFillContext);
   const { data } = state;
   const [isVisible, setIsVisible] = React.useState(false);
-  const [ssstate, dispatch] = useReducer(reducer, 0);
+  const [totalCost, dispatch] = useReducer(reducer, 0);
 
   const [orderNumber, setOrderNumber] = useState(0);
   useEffect(() => {
@@ -42,12 +42,13 @@ export default function SetAnOrder() {
   };
   const postOrder = async () => {
     try {
-      const res = await fetch(postUrl, requestOptions);
+      const res = await fetch(`${baseUrl}orders`, requestOptions);
       if (!res.ok) {
         throw new Error("Ответ сети был не ok.");
       } else {
         const resData = await res.json();
         setOrderNumber(resData.order.number);
+        setIsVisible(true);
       }
     } catch (error) {
       console.log("Возникла проблема с вашим fetch запросом: ", error);
@@ -55,7 +56,6 @@ export default function SetAnOrder() {
   };
 
   const handleOpen = () => {
-    setIsVisible(true);
     postOrder();
   };
   const handleClose = () => {
@@ -70,7 +70,7 @@ export default function SetAnOrder() {
     <>
       <div className={`mt-10 ${setAnOrder.main}`}>
         <div className={`mr-10 ${setAnOrder.cost}`}>
-          <p className="text text_type_digits-medium mr-2">{ssstate} </p>
+          <p className="text text_type_digits-medium mr-2">{totalCost} </p>
           <CurrencyIcon type="primary" />
         </div>
         <Button type="primary" size="large" onClick={handleOpen}>
@@ -81,4 +81,3 @@ export default function SetAnOrder() {
     </>
   );
 }
-

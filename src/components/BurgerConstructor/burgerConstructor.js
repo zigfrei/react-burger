@@ -3,7 +3,7 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 import SetAnOrder from "./SetAnOrder/setAnOrder.js";
 import PropTypes from "prop-types";
 import { menuItemPropTypes } from "../../utils/constants.js";
-import { BurgerFillContext } from "../../utils/burgerContext.js";
+import { BurgerFillContext } from "../../services/burgerContext.js";
 import { useContext, useReducer, useEffect } from "react";
 
 export default function BurgerConstructor() {
