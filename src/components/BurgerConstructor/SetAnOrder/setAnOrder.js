@@ -3,20 +3,67 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import setAnOrder from "./setAnOrder.module.css";
 import PropTypes from "prop-types";
 import { Modal } from "../../Modal/modal.js";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import OrderDetails from "../OrderDetails/orderDetails.js";
+import { BurgerFillContext } from "../../../services/burgerContext.js";
+import { useContext, useReducer } from "react";
+import { baseUrl } from "../../../utils/constants.js";
 
-export default function SetAnOrder({ totalCost }) {
+function reducer(sumState, data) {
+  let sum = data.reduce(
+    (sum, ingredients) =>
+      sum +
+      (ingredients.type === "bun" ? ingredients.price * 2 : ingredients.price),
+    0
+  );
+  return sum;
+}
+export default function SetAnOrder() {
+  const { state } = useContext(BurgerFillContext);
+  const { data } = state;
   const [isVisible, setIsVisible] = React.useState(false);
+  const [totalCost, dispatch] = useReducer(reducer, 0);
+
+  const [orderNumber, setOrderNumber] = useState(0);
+  useEffect(() => {
+    dispatch(data);
+  }, [data]);
+
+  const ingridientId = data.map((ing) => ing._id);
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ingredients: ingridientId,
+    }),
+  };
+  const postOrder = async () => {
+    try {
+      const res = await fetch(`${baseUrl}orders`, requestOptions);
+      if (!res.ok) {
+        throw new Error("Ответ сети был не ok.");
+      } else {
+        const resData = await res.json();
+        setOrderNumber(resData.order.number);
+        setIsVisible(true);
+      }
+    } catch (error) {
+      console.log("Возникла проблема с вашим fetch запросом: ", error);
+    }
+  };
+
   const handleOpen = () => {
-    setIsVisible(true);
+    postOrder();
   };
   const handleClose = () => {
     setIsVisible(false);
   };
   const modal = (
     <Modal onClose={handleClose}>
-      <OrderDetails />
+      <OrderDetails orderNumber={orderNumber} />
     </Modal>
   );
   return (
@@ -34,6 +81,3 @@ export default function SetAnOrder({ totalCost }) {
     </>
   );
 }
-SetAnOrder.propTypes = {
-  totalCost: PropTypes.number.isRequired,
-};
