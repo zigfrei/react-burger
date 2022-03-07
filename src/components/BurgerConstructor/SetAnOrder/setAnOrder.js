@@ -1,69 +1,59 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import setAnOrder from "./setAnOrder.module.css";
-import PropTypes from "prop-types";
 import { Modal } from "../../Modal/modal.js";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import OrderDetails from "../OrderDetails/orderDetails.js";
-import { BurgerFillContext } from "../../../services/burgerContext.js";
-import { useContext, useReducer } from "react";
-import { baseUrl } from "../../../utils/constants.js";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getOrder,
+  GET_ORDER_REQUEST,
+  GET_ORDER_FAILED,
+  GET_ORDER_SUCCESS,
+} from "../../../services/actions/order";
+import { CLEAR_INGREDIENTS } from "../../../services/actions/burgerConstructor";
 
-function reducer(sumState, data) {
-  let sum = data.reduce(
-    (sum, ingredients) =>
-      sum +
-      (ingredients.type === "bun" ? ingredients.price * 2 : ingredients.price),
-    0
-  );
-  return sum;
-}
 export default function SetAnOrder() {
-  const { state } = useContext(BurgerFillContext);
-  const { data } = state;
+  const { burgerIngredients } = useSelector((state) => state.burgerIngredients);
+  const { ingredients, burgerBun } = useSelector(
+    (state) => state.burgerConstructor
+  );
   const [isVisible, setIsVisible] = React.useState(false);
-  const [totalCost, dispatch] = useReducer(reducer, 0);
 
-  const [orderNumber, setOrderNumber] = useState(0);
-  useEffect(() => {
-    dispatch(data);
-  }, [data]);
-
-  const ingridientId = data.map((ing) => ing._id);
-  const requestOptions = {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      ingredients: ingridientId,
-    }),
-  };
-  const postOrder = async () => {
-    try {
-      const res = await fetch(`${baseUrl}orders`, requestOptions);
-      if (!res.ok) {
-        throw new Error("Ответ сети был не ok.");
-      } else {
-        const resData = await res.json();
-        setOrderNumber(resData.order.number);
-        setIsVisible(true);
-      }
-    } catch (error) {
-      console.log("Возникла проблема с вашим fetch запросом: ", error);
+  const totalCost = useMemo(() => {
+    let total = 0;
+    const element = burgerIngredients.find((el) => el._id === burgerBun);
+    if (element) {
+      total += element.price * 2;
     }
-  };
+    ingredients.forEach((item) => {
+      const element = burgerIngredients.find((el) => el._id === item.id);
+      if (element) {
+        total += element.price;
+      }
+    });
+    return total;
+  }, [ingredients, burgerIngredients, burgerBun]);
+
+  const dispatch = useDispatch();
 
   const handleOpen = () => {
-    postOrder();
+    setIsVisible(true);
+    const burgerOrder = ingredients
+      .map((item) => item.id)
+      .concat(burgerBun, burgerBun);
+    console.log(burgerOrder);
+    dispatch(getOrder(burgerOrder));
   };
   const handleClose = () => {
     setIsVisible(false);
+    dispatch({
+      type: CLEAR_INGREDIENTS,
+    });
   };
   const modal = (
     <Modal onClose={handleClose}>
-      <OrderDetails orderNumber={orderNumber} />
+      <OrderDetails />
     </Modal>
   );
   return (
