@@ -2,12 +2,14 @@ import {
   GET_BURGER_INGREDIENTS_REQUEST,
   GET_BURGER_INGREDIENTS_SUCCESS,
   GET_BURGER_INGREDIENTS_FAILED,
+  CHANGE_TUB,
 } from "../actions/burgerIngredients";
 
 const initialState = {
   burgerIngredients: [],
   burgerIngredientsRequest: false,
   burgerIngredientsFailed: false,
+  currentTab: "Булки",
 };
 
 export const burgerIngredientsReducer = (state = initialState, action) => {
@@ -37,5 +39,18 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
     default: {
       return state;
     }
+  }
+};
+
+export const changeTabReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case CHANGE_TUB: {
+      return {
+        ...state,
+        currentTab: action.currentTab,
+      };
+    }
+    default:
+      return state;
   }
 };

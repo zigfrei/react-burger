@@ -2,22 +2,19 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import setAnOrder from "./setAnOrder.module.css";
 import { Modal } from "../../Modal/modal.js";
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import OrderDetails from "../OrderDetails/orderDetails.js";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getOrder,
-  GET_ORDER_REQUEST,
-  GET_ORDER_FAILED,
-  GET_ORDER_SUCCESS,
-} from "../../../services/actions/order";
+import { getOrder } from "../../../services/actions/order";
 import { CLEAR_INGREDIENTS } from "../../../services/actions/burgerConstructor";
+import { CLEAR_ORDER } from "../../../services/actions/order";
 
 export default function SetAnOrder() {
   const { burgerIngredients } = useSelector((state) => state.burgerIngredients);
   const { ingredients, burgerBun } = useSelector(
     (state) => state.burgerConstructor
   );
+  const { order } = useSelector((state) => state.order);
   const [isVisible, setIsVisible] = React.useState(false);
 
   const totalCost = useMemo(() => {
@@ -42,13 +39,15 @@ export default function SetAnOrder() {
     const burgerOrder = ingredients
       .map((item) => item.id)
       .concat(burgerBun, burgerBun);
-    console.log(burgerOrder);
     dispatch(getOrder(burgerOrder));
   };
   const handleClose = () => {
     setIsVisible(false);
     dispatch({
       type: CLEAR_INGREDIENTS,
+    });
+    dispatch({
+      type: CLEAR_ORDER,
     });
   };
   const modal = (
