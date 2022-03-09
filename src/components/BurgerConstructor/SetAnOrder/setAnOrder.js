@@ -14,7 +14,6 @@ export default function SetAnOrder() {
   const { ingredients, burgerBun } = useSelector(
     (state) => state.burgerConstructor
   );
-  const { order } = useSelector((state) => state.order);
   const [isVisible, setIsVisible] = React.useState(false);
 
   const totalCost = useMemo(() => {
