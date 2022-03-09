@@ -1,49 +1,31 @@
-import AppHeader from '../AppHeader/appHeader.js';
-import BurgerIngredients from "../BurgerIngredients/burgerIngredients.js";
+import AppHeader from "../AppHeader/appHeader.js";
+import { BurgerIngredients } from "../BurgerIngredients/burgerIngredients.js";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import BurgerConstructor from "../BurgerConstructor/burgerConstructor.js";
-import app from './app.module.css';
-import React from "react";
-import {baseUrl} from '../../utils/constants.js';
-import {BurgerFillContext} from '../../services/burgerContext.js';
-
-
+import app from "./app.module.css";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getBurgerIngredients } from "../../services/actions/burgerIngredients";
 
 export default function App() {
-const [state, setState] = React.useState({
-  data:[],
-  isLoading: true,
-});
-React.useEffect(()=>{
-  const getData = async () =>{
-    setState({...state, isLoading:true})
+  const dispatch = useDispatch();
 
-    try{
-      const res = await fetch(`${baseUrl}ingredients`);
-      if (!res.ok) {
-        throw new Error('Ответ сети был не ok.');
-      }
-    const resData = await res.json();
-    setState({data:resData.data, isLoading:false});
+  useEffect(() => {
+    dispatch(getBurgerIngredients());
+  }, [dispatch]);
 
-  }
-    catch(error){
-      console.log('Возникла проблема с вашим fetch запросом: ', error);
-    }
-  };
-  getData();
-
-}, [])
   return (
     <div className={app.page}>
-  <header><AppHeader /></header>
-  <main className={app.main}>
-  {!state.isLoading && <BurgerIngredients data = {state.data} />}
-  <BurgerFillContext.Provider value={{state, setState}}>
-  {!state.isLoading && <BurgerConstructor/>}
-  </BurgerFillContext.Provider>
-    </main>
+      <header>
+        <AppHeader />
+      </header>
+      <main className={app.main}>
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </DndProvider>
+      </main>
     </div>
   );
 }
-
-

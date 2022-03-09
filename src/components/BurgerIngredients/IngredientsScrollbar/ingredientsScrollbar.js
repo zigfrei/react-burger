@@ -4,32 +4,47 @@ import PropTypes from "prop-types";
 import { menuItemPropTypes } from "../../../utils/constants.js";
 import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDispatch, useSelector } from "react-redux";
+import { CHANGE_TUB } from "../../../services/actions/burgerIngredients";
 
 export default function IngredientsScrollbar({ ingredientsData }) {
-  const [current, setCurrent] = React.useState();
+  const { currentTab } = useSelector((state) => state.tab);
+  const dispatch = useDispatch();
+
   const bun = [];
   const sauce = [];
   const filling = [];
-  const bunRef = React.useRef(null);
-  const sauceRef = React.useRef(null);
-  const fillingRef = React.useRef(null);
-  const bunHandleClick = (e) => {
-    setCurrent(e);
-    bunRef.current.scrollIntoView({
-      behavior: "smooth",
-    });
+
+  const bunRef = React.useRef("bun");
+  const sauceRef = React.useRef("sauce");
+  const fillingRef = React.useRef("fill");
+
+  const scroll = (item) => {
+    item.current.scrollIntoView({ behavior: "smooth" });
   };
-  const sauceHandleClick = (e) => {
-    setCurrent(e);
-    sauceRef.current.scrollIntoView({
-      behavior: "smooth",
-    });
-  };
-  const fillingHandleClick = (e) => {
-    setCurrent(e);
-    fillingRef.current.scrollIntoView({
-      behavior: "smooth",
-    });
+
+  const scrollEvent = (e) => {
+    const elementHeight = e.target.scrollTop;
+    const bunHeight = bunRef.current.scrollHeight;
+    const sauceHeight = sauceRef.current.scrollHeight;
+    const fillingHeight = fillingRef.current.scrollHeight;
+
+    if (bunHeight - elementHeight > 0) {
+      dispatch({
+        type: CHANGE_TUB,
+        currentTab: "Булки",
+      });
+    } else if (bunHeight + sauceHeight - elementHeight > 0) {
+      dispatch({
+        type: CHANGE_TUB,
+        currentTab: "Соусы",
+      });
+    } else if (bunHeight + sauceHeight + fillingHeight - elementHeight > 0) {
+      dispatch({
+        type: CHANGE_TUB,
+        currentTab: "Начинки",
+      });
+    }
   };
 
   ingredientsData.forEach((ingredient) => {
@@ -46,50 +61,59 @@ export default function IngredientsScrollbar({ ingredientsData }) {
       <nav className={`${ingredientsScrollbar.main} mt-5`}>
         <Tab
           value="Булки"
-          active={current === "Булки"}
-          onClick={(bunHandleClick)}
+          active={currentTab === "Булки"}
+          onClick={() => scroll(bunRef)}
         >
           Булки
         </Tab>
         <Tab
           value="Соусы"
-          active={current === "Соусы"}
-          onClick={(sauceHandleClick)}
+          active={currentTab === "Соусы"}
+          onClick={() => scroll(sauceRef)}
         >
           Соусы
         </Tab>
         <Tab
           value="Начинки"
-          active={current === "Начинки"}
-          onClick={(fillingHandleClick)}
+          active={currentTab === "Начинки"}
+          onClick={() => scroll(fillingRef)}
         >
           Начинки
         </Tab>
       </nav>
-      <ul className={ingredientsScrollbar.scroll}>
-        <h2 ref={bunRef} className="text text_type_main-medium mt-10 mb-6">
-          Булки
-        </h2>
-        <div className={`${ingredientsScrollbar.element} pl-4`}>
-          {bun.map((ingredient) => (
-            <TemplateIngredient key={ingredient._id} ingredient={ingredient} />
-          ))}
+      <ul className={ingredientsScrollbar.scroll} onScroll={scrollEvent}>
+        <div ref={bunRef}>
+          <h2 className="text text_type_main-medium mt-10 mb-6">Булки</h2>
+          <div className={`${ingredientsScrollbar.element} pl-4`}>
+            {bun.map((ingredient) => (
+              <TemplateIngredient
+                key={ingredient._id}
+                ingredient={ingredient}
+              />
+            ))}
+          </div>
         </div>
-        <h2 ref={sauceRef} className="text text_type_main-medium mt-10 mb-6">
-          Соусы
-        </h2>
-        <div className={`${ingredientsScrollbar.element} pl-4`}>
-          {sauce.map((ingredient) => (
-            <TemplateIngredient key={ingredient._id} ingredient={ingredient} />
-          ))}
+        <div ref={sauceRef}>
+          <h2 className="text text_type_main-medium mt-10 mb-6">Соусы</h2>
+          <div className={`${ingredientsScrollbar.element} pl-4`}>
+            {sauce.map((ingredient) => (
+              <TemplateIngredient
+                key={ingredient._id}
+                ingredient={ingredient}
+              />
+            ))}
+          </div>
         </div>
-        <h2 ref={fillingRef} className="text text_type_main-medium mt-10 mb-6">
-          Начинки
-        </h2>
-        <div className={`${ingredientsScrollbar.element} pl-4`}>
-          {filling.map((ingredient) => (
-            <TemplateIngredient key={ingredient._id} ingredient={ingredient} />
-          ))}
+        <div ref={fillingRef}>
+          <h2 className="text text_type_main-medium mt-10 mb-6">Начинки</h2>
+          <div className={`${ingredientsScrollbar.element} pl-4`}>
+            {filling.map((ingredient) => (
+              <TemplateIngredient
+                key={ingredient._id}
+                ingredient={ingredient}
+              />
+            ))}
+          </div>
         </div>
       </ul>
     </>

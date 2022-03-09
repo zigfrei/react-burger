@@ -1,12 +1,14 @@
 import orderDetails from "./orderDetails.module.css";
 import done from "../../../images/done.png";
-// import { BurgerFillContext } from "../../../services/burgerContext.js";
-// import { useContext } from "react";
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
-export default function OrderDetails({orderNumber}) {
-  // const { state } = useContext(BurgerFillContext);
-
+export default function OrderDetails() {
+  const { order, orderRequest, orderFailed } = useSelector(state => state.order);
+  if (orderFailed) {
+    return <p>Произошла ошибка при получении данных</p>
+  } else if (orderRequest) {
+    return <p>Загрузка...</p>
+  } else {
   return (
     <>
       <p
@@ -14,7 +16,7 @@ export default function OrderDetails({orderNumber}) {
           "text text_type_digits-large mt-4 mb-8 " + orderDetails.number
         }
       >
-        {orderNumber}
+        {order}
       </p>
       <p className="text text_type_main-medium mb-15">идентификатор заказа</p>
       <img className="mb-15" src={done} alt="order accepted" />
@@ -26,8 +28,5 @@ export default function OrderDetails({orderNumber}) {
       </p>
     </>
   );
-}
+}}
 
-OrderDetails.propTypes = {
-  orderNumber: PropTypes.number.isRequired,
-};
