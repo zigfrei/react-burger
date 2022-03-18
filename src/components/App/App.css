@@ -5,6 +5,7 @@
 }
 
 .page {
+  /* position: relative; */
   width: 100%;
 max-width: 1230px;
 margin: 0 auto;
