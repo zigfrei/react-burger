@@ -20,15 +20,18 @@ export function postPasswordReset(email) {
     })
       .then(function (res) {
         if (res.ok) {
+          console.log('action');
           return res.json();
         }
         return Promise.reject(`Ошибка: ${res.statusText}`);
       })
       .then((res) => {
         if (res && res.success) {
+          localStorage.setItem('resetToken', true);
+          console.log('action');
           dispatch({
             type: POST_PASSWORD_RESET_SUCCESS,
-            // order: res.order.number,
+            passwordReset: res.success,
           });
           console.log(res);
         } else {

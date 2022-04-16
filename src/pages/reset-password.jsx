@@ -4,16 +4,20 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { postNewPassword, reg } from "../services/actions/reset-password";
-import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
+import { postNewPassword } from "../services/actions/reset-password";
+import {
+  useHistory,
+  useLocation,
+  useRouteMatch,
+  Redirect,
+} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { deleteCookie, setCookie, getCookie } from "../utils/cookie";
 
 export function ResetPasswordPage() {
   const history = useHistory();
-
-  const { newPassword, newPasswordRequest, newPasswordFailed } = useSelector(
-    (state) => state.newPassword
-  );
+  const { state } = useLocation();
+  const { passwordReset } = useSelector((state) => state.newPassword);
 
   const dispatch = useDispatch();
 
@@ -28,15 +32,29 @@ export function ResetPasswordPage() {
   const [emailCode, setEmailCode] = useState("");
   const emailCodeInputRef = useRef(null);
 
-  const handleSavePassword = () => {
-    console.log(newPasswordValue, emailCode);
-    dispatch(postNewPassword(newPasswordValue, emailCode));
-    toLogin();
-  };
+  const handleSavePassword = useCallback((e) => {
+      e.preventDefault();
+      dispatch(postNewPassword(newPasswordValue, emailCode));
+      toLogin();
+    },
+    [newPasswordValue, emailCode]
+  );
 
-  const toLogin = useCallback(() => {
-    history.replace({ pathname: "/login" });
-  }, [history]);
+  const toLogin = () => {
+
+      history.replace({ pathname: "/login" });
+    };
+
+  console.log('reset page pre run', localStorage.getItem('resetToken'));
+
+  if (!localStorage.getItem('resetToken') ){
+    console.log('reset page run', passwordReset);
+    return <Redirect to={{ pathname: "/forgot-password" }} />;
+  }
+
+  if (getCookie("token")) {
+    return <Redirect to={{pathname: '/'}} />;
+  }
 
   return (
     <main className="formWrapper">

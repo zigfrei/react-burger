@@ -22,7 +22,7 @@ export const passwordResetReducer = (state = initialState, action) => {
       return {
         ...state,
         passwordResetRequest: false,
-        // order: action.order,
+        passwordReset: action.passwordReset,
         passwordResetFailed: false,
       };
     }

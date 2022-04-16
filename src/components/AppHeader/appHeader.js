@@ -11,25 +11,17 @@ export default function AppHeader(props) {
       <ul className={appHeader.ul}>
         <div className={appHeader.listItem}>
           <li className={appHeader.li}>
-            <a className={appHeader.a} href="#">
-              <Constructor />
-            </a>
+            <Constructor />
           </li>
           <li className={appHeader.li}>
-            <a className={appHeader.a} href="#">
-              <OrderList />
-            </a>
+            <OrderList />
           </li>
         </div>
         <li className={appHeader.li}>
-          <a className={appHeader.a} href="#">
-            <Logo />
-          </a>
+          <Logo />
         </li>
         <li className={appHeader.lastLi}>
-          <a className={appHeader.a} href="#">
-            <PersonalAccount />
-          </a>
+          <PersonalAccount />
         </li>
       </ul>
     </nav>

@@ -1,39 +1,60 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import {
   PasswordInput,
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
+import { useHistory, useLocation, useRouteMatch, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { postPasswordReset } from "../services/actions/forgot-password";
+import { deleteCookie, setCookie, getCookie } from "../utils/cookie";
 
 export function ForgotPasswordPage() {
+  const { state } = useLocation();
   const history = useHistory();
-  const toResetPassword = useCallback(() => {
+
+
+
+  const toResetPassword = () => {
     history.replace({ pathname: "/reset-password" });
-  }, [history]);
+  };
 
   const dispatch = useDispatch();
 
   const { passwordReset, passwordResetRequest, passwordResetFailed } =
     useSelector((state) => state.passwordReset);
 
-  // const content = passwordResetFailed
-  //   ? "Произошла ошибка при получении данных. Попробуйте отправить e-mail еще раз."
-  //   : passwordResetRequest
-  //   ? "text text_type_main-default" > "Отправка..."
-  //   : toResetPassword();
-
   const [emailValue, setEmailValue] = useState("");
   const onEmailChange = (e) => {
     setEmailValue(e.target.value);
   };
 
-  const handleReset = () => {
+  // const handleReset = useCallback((e) => {
+  //   dispatch(postPasswordReset(emailValue));
+
+  // };
+  const handleReset = useCallback((e) => {
+    e.preventDefault();
     dispatch(postPasswordReset(emailValue));
+  }, [emailValue]);
+
+
+
+  const toLogin = useCallback((e) => {
+    e.preventDefault();
+    history.replace({ pathname: "/login" });
+  }, [history]);
+
+console.log('forgot passwor pre run', localStorage.getItem('resetToken'));
+
+if (getCookie("token")) {
+  return <Redirect to={{pathname: '/'}} />;
+}
+
+  if (localStorage.getItem('resetToken')) {
     toResetPassword();
-  };
+  }
+
   return (
     <main className="formWrapper">
       <form className="formMain">
@@ -62,7 +83,7 @@ export function ForgotPasswordPage() {
           <p className="text text_type_main-default text_color_inactive mr-2">
             Вспомнили пароль?
           </p>
-          <Button type="secondary" size="medium">
+          <Button type="secondary" size="medium" onClick={toLogin}>
             Войти
           </Button>
         </div>

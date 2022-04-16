@@ -1,7 +1,7 @@
 .menu{
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 320px;
   height: 100%;
   position: fixed;
   /* top: 0;
@@ -18,4 +18,23 @@ align-items: center;
 width: 320px;
 height: 64px;
 cursor: pointer;
+text-decoration:unset;
+color: #8585AD;
 }
+
+.activeMenuElement{
+  display: flex;
+align-items: center;
+width: 320px;
+height: 64px;
+cursor: pointer;
+text-decoration:unset;
+  color: #F2F2F3;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  }

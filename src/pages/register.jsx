@@ -4,33 +4,57 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import {
+  useHistory,
+  useLocation,
+  useRouteMatch,
+  Redirect,
+} from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { postRegister } from "../services/actions/auth";
+import { deleteCookie, setCookie, getCookie } from "../utils/cookie";
 
 export function RegisterPage() {
+  const { state } = useLocation();
+  const [form, setValue] = useState({ name: "", email: "", password: "" });
+
+  const onChange = (e) => {
+    setValue({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const { accessToken, refreshToken } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+
   const history = useHistory();
-  const [nameValue, setNameValue] = useState("");
+
+  // const [nameValue, setNameValue] = useState("");
+
+  //TODO Реализовать нажатие на иконку
   const nameInputRef = useRef(null);
   const onIconClick = () => {
     setTimeout(() => nameInputRef.current.focus(), 0);
     alert("Icon Click Callback");
   };
 
-  const [emailValue, setEmailValue] = useState("");
-  const onEmailChange = (e) => {
-    setEmailValue(e.target.value);
-  };
-
-  const [passwordValue, setPasswordValue] = useState("");
-  const onPasswordChange = (e) => {
-    setPasswordValue(e.target.value);
-  };
-
-  const toLogin = useCallback(
-    () => {
-        history.replace({ pathname: '/login' });
+  const toRegister = useCallback(
+    (e) => {
+      e.preventDefault();
+      console.log(form);
+      dispatch(postRegister(form));
+      console.log(accessToken, refreshToken);
     },
-    [history]
+    [form, accessToken, refreshToken]
   );
+
+  const toLogin = useCallback((e) => {
+    e.preventDefault();
+    history.replace({ pathname: "/login" });
+  }, [history]);
+
+  if (getCookie("token")) {
+    return <Redirect to={{pathname: '/'}} />;
+  }
 
   return (
     <main className="formWrapper">
@@ -41,9 +65,9 @@ export function RegisterPage() {
           <Input
             type={"text"}
             placeholder={"Имя"}
-            onChange={(e) => setNameValue(e.target.value)}
+            onChange={onChange}
             icon={""}
-            value={nameValue}
+            value={form.name}
             name={"name"}
             error={false}
             ref={nameInputRef}
@@ -57,19 +81,24 @@ export function RegisterPage() {
           <Input
             type={"email"}
             placeholder={"E-mail"}
-            onChange={onEmailChange}
-            value={emailValue}
-            name={"E-mail"}
+            onChange={onChange}
+            value={form.email}
+            name={"email"}
           />
         </div>
         <div className="mb-6">
           <PasswordInput
-            onChange={onPasswordChange}
-            value={passwordValue}
+            onChange={onChange}
+            value={form.password}
             name={"password"}
           />
         </div>
-        <Button className="mb-20" type="primary" size="medium">
+        <Button
+          className="mb-20"
+          type="primary"
+          size="medium"
+          onClick={toRegister}
+        >
           Зарегистрироваться
         </Button>
         <div className="secondaryFormActions mt-20 mb-4">

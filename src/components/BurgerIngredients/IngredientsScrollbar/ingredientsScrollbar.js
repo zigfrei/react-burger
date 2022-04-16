@@ -6,8 +6,11 @@ import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { CHANGE_TUB } from "../../../services/actions/burgerIngredients";
+import { useLocation, Link } from "react-router-dom";
 
 export default function IngredientsScrollbar({ ingredientsData }) {
+  let location = useLocation();
+
   const { currentTab } = useSelector((state) => state.tab);
   const dispatch = useDispatch();
 
@@ -86,10 +89,19 @@ export default function IngredientsScrollbar({ ingredientsData }) {
           <h2 className="text text_type_main-medium mt-10 mb-6">Булки</h2>
           <div className={`${ingredientsScrollbar.element} pl-4`}>
             {bun.map((ingredient) => (
-              <TemplateIngredient
+              <Link
+                style={{ all: "unset" }}
                 key={ingredient._id}
-                ingredient={ingredient}
-              />
+                to={{
+                  pathname: `/ingredients/${ingredient._id}`,
+                  state: { background: location },
+                }}
+              >
+                <TemplateIngredient
+                  key={ingredient._id}
+                  ingredient={ingredient}
+                />
+              </Link>
             ))}
           </div>
         </div>
@@ -97,10 +109,19 @@ export default function IngredientsScrollbar({ ingredientsData }) {
           <h2 className="text text_type_main-medium mt-10 mb-6">Соусы</h2>
           <div className={`${ingredientsScrollbar.element} pl-4`}>
             {sauce.map((ingredient) => (
-              <TemplateIngredient
+              <Link
+                style={{ all: "unset" }}
                 key={ingredient._id}
-                ingredient={ingredient}
-              />
+                to={{
+                  pathname: `/ingredients/${ingredient._id}`,
+                  state: { background: location },
+                }}
+              >
+                <TemplateIngredient
+                  key={ingredient._id}
+                  ingredient={ingredient}
+                />
+              </Link>
             ))}
           </div>
         </div>
@@ -108,10 +129,19 @@ export default function IngredientsScrollbar({ ingredientsData }) {
           <h2 className="text text_type_main-medium mt-10 mb-6">Начинки</h2>
           <div className={`${ingredientsScrollbar.element} pl-4`}>
             {filling.map((ingredient) => (
-              <TemplateIngredient
+              <Link
+                style={{ all: "unset" }}
                 key={ingredient._id}
-                ingredient={ingredient}
-              />
+                to={{
+                  pathname: `/ingredients/${ingredient._id}`,
+                  state: { background: location },
+                }}
+              >
+                <TemplateIngredient
+                  key={ingredient._id}
+                  ingredient={ingredient}
+                />
+              </Link>
             ))}
           </div>
         </div>

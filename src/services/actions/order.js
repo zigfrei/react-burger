@@ -1,4 +1,5 @@
 import { baseUrl } from "../../utils/constants";
+import { getCookie } from "../../utils/cookie";
 
 export const GET_ORDER_REQUEST = "GET_ORDER_REQUEST";
 export const GET_ORDER_FAILED = "GET_ORDER_FAILED";
@@ -14,6 +15,7 @@ export function getOrder(ingredients) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + getCookie("token"),
       },
       body: JSON.stringify({
         ingredients: ingredients,
