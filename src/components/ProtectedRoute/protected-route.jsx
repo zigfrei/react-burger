@@ -1,4 +1,4 @@
-import { Redirect, Route, useLocation} from "react-router-dom";
+import { Redirect, Route, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../services/actions/auth";
@@ -8,7 +8,6 @@ export function ProtectedRoute({ children, ...rest }) {
   const { getUserSuccess, userName, userEmail } = useSelector(
     (state) => state.auth
   );
-
 
   const dispatch = useDispatch();
 

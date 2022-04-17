@@ -1,31 +1,27 @@
 import { baseUrl } from "../../utils/constants";
 import { deleteCookie, setCookie, getCookie, isTokenExpired } from "../../utils/cookie";
+import {checkResponse, checkSuccess} from '../../utils/functions'
 
-export const POST_LOGIN_REQUEST = "POST_LOGIN_REQUEST";
-export const POST_LOGIN_FAILED = "POST_LOGIN_FAILED";
+export const AUTH_REQUEST = "AUTH_REQUEST";
+function authRequest() {
+  return { type: AUTH_REQUEST }
+}
+export const AUTH_FAILED = "AUTH_FAILED";
+function authFailed() {
+  return { type: AUTH_FAILED }
+}
+
 export const POST_LOGIN_SUCCESS = "POST_LOGIN_SUCCESS";
-export const POST_REGISTER_REQUEST = "POST_REGISTER_REQUEST";
-export const POST_REGISTER_FAILED = "POST_REGISTER_FAILED";
 export const POST_REGISTER_SUCCESS = "POST_REGISTER_SUCCESS";
-export const POST_TOKEN_UPDATE_REQUEST = "POST_TOKEN_UPDATE_REQUEST";
-export const POST_TOKEN_UPDATE_FAILED = "POST_TOKEN_UPDATE_FAILED";
 export const POST_TOKEN_UPDATE_SUCCESS = "POST_TOKEN_UPDATE_SUCCESS";
-export const POST_LOGOUT_REQUEST = "POST_LOGOUT_REQUEST";
-export const POST_LOGOUT_FAILED = "POST_LOGOUT_FAILED";
 export const POST_LOGOUT_SUCCESS = "POST_LOGOUT_SUCCESS";
-export const GET_USER_REQUEST = "GET_USER_REQUEST";
-export const GET_USER_FAILED = "GET_USER_FAILED";
 export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
-export const PATCH_USER_REQUEST = "PATCH_USER_REQUEST";
-export const PATCH_USER_FAILED = "PATCH_USER_FAILED";
 export const PATCH_USER_SUCCESS = "PATCH_USER_SUCCESS";
 export const CLEAR_AUTHORIZATION = "CLEAR_AUTHORIZATION";
 
 export function loginRequest(form) {
   return function (dispatch) {
-    dispatch({
-      type: POST_LOGIN_REQUEST,
-    });
+    dispatch(authRequest());
     fetch(`${baseUrl}auth/login`, {
       method: "POST",
       headers: {
@@ -33,12 +29,7 @@ export function loginRequest(form) {
       },
       body: JSON.stringify(form),
     })
-      .then(function (res) {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.statusText}`);
-      })
+    .then(checkResponse)
       .then((res) => {
         if (res && res.success) {
           localStorage.setItem("refreshToken", res.refreshToken);
@@ -51,25 +42,19 @@ export function loginRequest(form) {
             accessToken: res.accessToken,
           });
         } else {
-          dispatch({
-            type: POST_LOGIN_FAILED,
-          });
+          dispatch(authFailed());
         }
       })
       .catch((err) => {
         console.log("Повторите ввод логина и пароля");
-        dispatch({
-          type: POST_LOGIN_FAILED,
-        });
+        dispatch(authFailed());
       });
   };
 }
 
 export function postRegister(form) {
   return function (dispatch) {
-    dispatch({
-      type: POST_REGISTER_REQUEST,
-    });
+    dispatch(authRequest());
     fetch(`${baseUrl}auth/register`, {
       method: "POST",
       headers: {
@@ -77,12 +62,7 @@ export function postRegister(form) {
       },
       body: JSON.stringify(form),
     })
-      .then(function (res) {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.statusText}`);
-      })
+      .then(checkResponse)
       .then((res) => {
         if (res && res.success) {
           localStorage.setItem("refreshToken", res.refreshToken);
@@ -95,24 +75,18 @@ export function postRegister(form) {
             accessToken: res.accessToken,
           });
         } else {
-          dispatch({
-            type: POST_REGISTER_FAILED,
-          });
+          dispatch(authFailed());
         }
       })
       .catch((err) => {
-        dispatch({
-          type: POST_REGISTER_FAILED,
-        });
+        dispatch(authFailed());
       });
   };
 }
 
 export function postTokenUpdate() {
   return function (dispatch) {
-    dispatch({
-      type: POST_TOKEN_UPDATE_REQUEST,
-    });
+    dispatch(authRequest());
     fetch(`${baseUrl}auth/token`, {
       method: "POST",
       headers: {
@@ -122,17 +96,18 @@ export function postTokenUpdate() {
         token: `${localStorage.getItem("refreshToken")}`,
       }),
     })
-      .then(function (res) {
-        console.log(
-          "tokeni",
-          localStorage.getItem("refreshToken"),
-          getCookie("token")
-        );
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.statusText}`);
-      })
+      // .then(function (res) {
+      //   console.log(
+      //     "tokeni",
+      //     localStorage.getItem("refreshToken"),
+      //     getCookie("token")
+      //   );
+      //   if (res.ok) {
+      //     return res.json();
+      //   }
+      //   return Promise.reject(`Ошибка: ${res.statusText}`);
+      // })
+      .then(checkResponse)
       .then((res) => {
         if (res && res.success) {
           let authToken = res.accessToken.split("Bearer ")[1];
@@ -144,24 +119,18 @@ export function postTokenUpdate() {
             accessToken: res.accessToken,
           });
         } else {
-          dispatch({
-            type: POST_TOKEN_UPDATE_FAILED,
-          });
+          dispatch(authFailed());
         }
       })
       .catch((err) => {
-        dispatch({
-          type: POST_TOKEN_UPDATE_FAILED,
-        });
+        dispatch(authFailed());
       });
   };
 }
 
 export function logoutRequest() {
   return function (dispatch) {
-    dispatch({
-      type: POST_LOGOUT_REQUEST,
-    });
+    dispatch(authRequest());
     fetch(`${baseUrl}auth/logout`, {
       method: "POST",
       headers: {
@@ -171,12 +140,7 @@ export function logoutRequest() {
         token: `${localStorage.getItem("refreshToken")}`,
       }),
     })
-      .then(function (res) {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.statusText}`);
-      })
+    .then(checkResponse)
       .then((res) => {
         if (res && res.success) {
           localStorage.removeItem("refreshToken");
@@ -187,29 +151,22 @@ export function logoutRequest() {
             type: CLEAR_AUTHORIZATION,
           });
         } else {
-          dispatch({
-            type: POST_LOGOUT_FAILED,
-          });
+          dispatch(authFailed());
         }
         return res;
       })
       .catch((err) => {
-        dispatch({
-          type: POST_LOGOUT_FAILED,
-        });
+        dispatch(authFailed());
       });
   };
 }
 
 export function getUser() {
-
   return function (dispatch) {
     if (isTokenExpired( getCookie("token"))){
   dispatch(postTokenUpdate());
 };
-    dispatch({
-      type: GET_USER_REQUEST,
-    });
+    dispatch(authRequest());
     fetch(`${baseUrl}auth/user`, {
       method: "GET",
       headers: {
@@ -217,18 +174,19 @@ export function getUser() {
         Authorization: "Bearer " + getCookie("token"),
       },
     })
-      .then(function (res) {
-        console.log(res);
-        if (res.ok) {
-          return res.json();
-        }
-        if (res.status === 403) {
-          dispatch(postTokenUpdate());
-          console.log("rabotaem");
-        }
+      // .then(function (res) {
+      //   console.log(res);
+      //   if (res.ok) {
+      //     return res.json();
+      //   }
+      //   if (res.status === 403) {
+      //     dispatch(postTokenUpdate());
+      //     console.log("rabotaem");
+      //   }
 
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      //   return Promise.reject(`Ошибка: ${res.status}`);
+      // })
+      .then(checkResponse)
       .then((res) => {
         if (res && res.success) {
           dispatch({
@@ -239,18 +197,14 @@ export function getUser() {
           });
           console.log("tut");
         } else {
-          dispatch({
-            type: GET_USER_FAILED,
-          });
+          dispatch(authFailed());
         }
       })
       .catch((err) => {
         console.log(err);
 
         console.log("Пройдите авторизацию");
-        dispatch({
-          type: GET_USER_FAILED,
-        });
+        dispatch(authFailed());
       });
   };
 }
@@ -258,9 +212,7 @@ export function getUser() {
 export function patchUser(name, email, password) {
   console.log(name, email, password);
   return function (dispatch) {
-    dispatch({
-      type: PATCH_USER_REQUEST,
-    });
+    dispatch(authRequest());
     fetch(`${baseUrl}auth/user`, {
       method: "PATCH",
       headers: {
@@ -274,16 +226,17 @@ export function patchUser(name, email, password) {
           password: password,
         }),
     })
-      .then(function (res) {
-        if (res.ok) {
-          return res.json();
-        }
-        if (res.status === 403) {
-          dispatch(postTokenUpdate());
-          console.log("ошибка 403 обновил токен");
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      // .then(function (res) {
+      //   if (res.ok) {
+      //     return res.json();
+      //   }
+      //   if (res.status === 403) {
+      //     dispatch(postTokenUpdate());
+      //     console.log("ошибка 403 обновил токен");
+      //   }
+      //   return Promise.reject(`Ошибка: ${res.status}`);
+      // })
+      .then(checkResponse)
       .then((res) => {
         console.log("Замена инфы", res);
         if (res && res.success) {
@@ -294,18 +247,14 @@ export function patchUser(name, email, password) {
           });
 
         } else {
-          dispatch({
-            type: GET_USER_FAILED,
-          });
+          dispatch(authFailed());
         }
       })
       .catch((err) => {
         console.log(err);
 
         console.log("Пройдите авторизацию");
-        dispatch({
-          type: PATCH_USER_FAILED,
-        });
+        dispatch(authFailed());
       });
   };
 }

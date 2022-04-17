@@ -15,7 +15,7 @@ import {
   useRouteMatch,
   Redirect,
 } from "react-router-dom";
-import {getCookie } from "../utils/cookie";
+import { getCookie } from "../utils/cookie";
 
 export function ProfilePage() {
   const { accessToken, userName, userEmail, userPassword } = useSelector(
@@ -59,33 +59,27 @@ export function ProfilePage() {
     setEmailValue(userEmail);
   }, [userName, userEmail, userPassword]);
 
-  const changeData = useCallback(
-    (e) => {
-      e.preventDefault();
+  const changeData = (e) => {
+    e.preventDefault();
+    dispatch(
+      patchUser(
+        nameValue,
+        emailValue,
+        passwordValue === "******" ? "" : passwordValue
+      )
+    );
+    setNameValue(userName);
+    setEmailValue(userEmail);
+    onIconClick();
+  };
 
-      dispatch(
-        patchUser(
-          nameValue,
-          emailValue,
-          passwordValue === "******" ? "" : passwordValue
-        )
-      );
-      setNameValue(userName);
-      setEmailValue(userEmail);
-      onIconClick();
-    },
-    [nameValue, emailValue, passwordValue]
-  );
-
-  const cancelChange = useCallback(
-    (e) => {
-      e.preventDefault();
-      setNameValue(userName);
-      setEmailValue(userEmail);
-      onIconClick();
-    },
-    [nameValue, emailValue, passwordValue]
-  );
+  const cancelChange = (e) => {
+    console.log("hi");
+    e.preventDefault();
+    setNameValue(userName);
+    setEmailValue(userEmail);
+    onIconClick();
+  };
 
   const addButtons = (
     <div className={styles.buttons}>
@@ -97,7 +91,6 @@ export function ProfilePage() {
       </Button>
     </div>
   );
-
 
   return (
     <>
