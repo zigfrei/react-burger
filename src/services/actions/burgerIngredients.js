@@ -1,4 +1,5 @@
 import { baseUrl } from "../../utils/constants";
+import {checkResponse, checkSuccess} from '../../utils/functions';
 
 export const GET_BURGER_INGREDIENTS_REQUEST = "GET_BURGER_INGREDIENTS_REQUEST";
 export const GET_BURGER_INGREDIENTS_SUCCESS = "GET_BURGER_INGREDIENTS_SUCCESS";
@@ -11,12 +12,7 @@ export function getBurgerIngredients() {
       type: GET_BURGER_INGREDIENTS_REQUEST,
     });
     fetch(`${baseUrl}ingredients`)
-      .then(function (res) {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.statusText}`);
-      })
+      .then(checkResponse)
       .then((res) => {
         if (res && res.success) {
           dispatch({

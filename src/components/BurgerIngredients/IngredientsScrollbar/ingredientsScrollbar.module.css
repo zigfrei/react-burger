@@ -44,3 +44,7 @@
     .main  {
       grid-auto-flow: row;
     }}
+
+    .link{
+      all:unset;
+    }

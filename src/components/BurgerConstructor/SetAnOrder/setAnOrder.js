@@ -66,8 +66,7 @@ export default function SetAnOrder() {
           <CurrencyIcon type="primary" />
         </div>
         <Link
-                style={{ all: "unset" }}
-
+                className={setAnOrder.link}
                 to={{
                   pathname: '/set-order',
                   state: { background: location },

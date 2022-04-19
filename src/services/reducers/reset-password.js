@@ -22,7 +22,6 @@ export const newPasswordReducer = (state = initialState, action) => {
       return {
         ...state,
         newPasswordRequest: false,
-        // order: action.order,
         newPasswordFailed: false,
       };
     }

@@ -18,7 +18,9 @@ export function ResetPasswordPage() {
   const history = useHistory();
   const { state } = useLocation();
   const { passwordReset } = useSelector((state) => state.newPassword);
-
+  const { isLoggedIn } = useSelector(
+    (state) => state.auth
+  );
   const dispatch = useDispatch();
 
   const [newPasswordValue, setNewPasswordValue] = useState("");
@@ -41,7 +43,6 @@ export function ResetPasswordPage() {
   );
 
   const toLogin = () => {
-
       history.replace({ pathname: "/login" });
     };
 
@@ -52,13 +53,13 @@ export function ResetPasswordPage() {
     return <Redirect to={{ pathname: "/forgot-password" }} />;
   }
 
-  if (getCookie("token")) {
+  if (isLoggedIn) {
     return <Redirect to={{pathname: '/'}} />;
   }
 
   return (
     <main className="formWrapper">
-      <form className="formMain">
+      <form className="formMain" onSubmit={handleSavePassword}>
         <h2 className="text text_type_main-medium mb-6">
           Восстановление пароля
         </h2>
@@ -98,7 +99,6 @@ export function ResetPasswordPage() {
           className="mb-20"
           type="primary"
           size="medium"
-          onClick={handleSavePassword}
         >
           Сохранить
         </Button>

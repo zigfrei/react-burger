@@ -8,17 +8,17 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutRequest, getUser, patchUser } from "../services/actions/auth";
+import { logoutRequest, patchUser, patchUserToken } from "../services/actions/auth";
 import {
   useHistory,
   useLocation,
   useRouteMatch,
   Redirect,
 } from "react-router-dom";
-import { getCookie } from "../utils/cookie";
+import { getCookie, isTokenExpired } from "../utils/cookie";
 
 export function ProfilePage() {
-  const { accessToken, userName, userEmail, userPassword } = useSelector(
+  const { userName, userEmail, userPassword } = useSelector(
     (state) => state.auth
   );
   const [isVisible, setIsVisible] = useState(false);
@@ -53,28 +53,35 @@ export function ProfilePage() {
   };
 
   const consolle = useMemo(() => {
-    dispatch(getUser());
-    console.log(userName, userEmail);
     setNameValue(userName);
     setEmailValue(userEmail);
   }, [userName, userEmail, userPassword]);
 
   const changeData = (e) => {
     e.preventDefault();
-    dispatch(
-      patchUser(
-        nameValue,
-        emailValue,
-        passwordValue === "******" ? "" : passwordValue
-      )
-    );
+    if (isTokenExpired(getCookie("token"))) {
+      dispatch(
+        patchUserToken(
+          nameValue,
+          emailValue,
+          passwordValue === "******" ? "" : passwordValue
+        )
+      );
+    } else {
+      dispatch(
+        patchUser(
+          nameValue,
+          emailValue,
+          passwordValue === "******" ? "" : passwordValue
+        )
+      );
+    };
     setNameValue(userName);
     setEmailValue(userEmail);
     onIconClick();
   };
 
   const cancelChange = (e) => {
-    console.log("hi");
     e.preventDefault();
     setNameValue(userName);
     setEmailValue(userEmail);
@@ -110,8 +117,6 @@ export function ProfilePage() {
               errorText={"Ошибка"}
               size={"default"}
               disabled={changeInput}
-              // onFocus={() => setIsVisible(true)}
-              // onBlur={() => setIsVisible(false)}
             />
           </div>
 

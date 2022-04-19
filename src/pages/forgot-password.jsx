@@ -13,14 +13,14 @@ export function ForgotPasswordPage() {
   const { state } = useLocation();
   const history = useHistory();
 
-
-
   const toResetPassword = () => {
     history.replace({ pathname: "/reset-password" });
   };
 
   const dispatch = useDispatch();
-
+  const { isLoggedIn } = useSelector(
+    (state) => state.auth
+  );
   const { passwordReset, passwordResetRequest, passwordResetFailed } =
     useSelector((state) => state.passwordReset);
 
@@ -29,10 +29,6 @@ export function ForgotPasswordPage() {
     setEmailValue(e.target.value);
   };
 
-  // const handleReset = useCallback((e) => {
-  //   dispatch(postPasswordReset(emailValue));
-
-  // };
   const handleReset = useCallback((e) => {
     e.preventDefault();
     dispatch(postPasswordReset(emailValue));
@@ -45,9 +41,8 @@ export function ForgotPasswordPage() {
     history.replace({ pathname: "/login" });
   }, [history]);
 
-console.log('forgot passwor pre run', localStorage.getItem('resetToken'));
-
-if (getCookie("token")) {
+  console.log("zaloginen?", isLoggedIn);
+if (isLoggedIn) {
   return <Redirect to={{pathname: '/'}} />;
 }
 
@@ -57,7 +52,7 @@ if (getCookie("token")) {
 
   return (
     <main className="formWrapper">
-      <form className="formMain">
+      <form className="formMain" onSubmit={handleReset}>
         <h2 className="text text_type_main-medium mb-6">
           Восстановление пароля
         </h2>
@@ -70,12 +65,10 @@ if (getCookie("token")) {
             name={"E-mail"}
           />
         </div>
-        {/* {content} */}
         <Button
           className="mb-20"
           type="primary"
           size="medium"
-          onClick={handleReset}
         >
           Восстановить
         </Button>

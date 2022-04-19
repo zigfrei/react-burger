@@ -58,7 +58,7 @@ export function RegisterPage() {
 
   return (
     <main className="formWrapper">
-      <form className="formMain">
+      <form className="formMain" onSubmit={toRegister}>
         <h2 className="text text_type_main-medium mb-6">Регистрация</h2>
 
         <div className="mb-6">
@@ -97,7 +97,6 @@ export function RegisterPage() {
           className="mb-20"
           type="primary"
           size="medium"
-          onClick={toRegister}
         >
           Зарегистрироваться
         </Button>

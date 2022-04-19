@@ -1,4 +1,5 @@
 import { baseUrl } from "../../utils/constants";
+import {checkResponse, checkSuccess} from '../../utils/functions';
 
 export const POST_PASSWORD_RESET_REQUEST = "POST_PASSWORD_RESET_REQUEST";
 export const POST_PASSWORD_RESET_FAILED = "POST_PASSWORD_RESET_FAILED";
@@ -18,13 +19,7 @@ export function postPasswordReset(email) {
         email: `${email}`,
       }),
     })
-      .then(function (res) {
-        if (res.ok) {
-          console.log('action');
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.statusText}`);
-      })
+      .then(checkResponse)
       .then((res) => {
         if (res && res.success) {
           localStorage.setItem('resetToken', true);

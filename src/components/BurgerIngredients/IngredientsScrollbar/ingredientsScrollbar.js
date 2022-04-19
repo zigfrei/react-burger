@@ -90,7 +90,7 @@ export default function IngredientsScrollbar({ ingredientsData }) {
           <div className={`${ingredientsScrollbar.element} pl-4`}>
             {bun.map((ingredient) => (
               <Link
-                style={{ all: "unset" }}
+                className={ingredientsScrollbar.link}
                 key={ingredient._id}
                 to={{
                   pathname: `/ingredients/${ingredient._id}`,
@@ -110,7 +110,7 @@ export default function IngredientsScrollbar({ ingredientsData }) {
           <div className={`${ingredientsScrollbar.element} pl-4`}>
             {sauce.map((ingredient) => (
               <Link
-                style={{ all: "unset" }}
+                className={ingredientsScrollbar.link}
                 key={ingredient._id}
                 to={{
                   pathname: `/ingredients/${ingredient._id}`,
@@ -130,7 +130,7 @@ export default function IngredientsScrollbar({ ingredientsData }) {
           <div className={`${ingredientsScrollbar.element} pl-4`}>
             {filling.map((ingredient) => (
               <Link
-                style={{ all: "unset" }}
+                className={ingredientsScrollbar.link}
                 key={ingredient._id}
                 to={{
                   pathname: `/ingredients/${ingredient._id}`,

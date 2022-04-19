@@ -3,9 +3,10 @@ import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import React, { useMemo } from "react";
 import { Modal } from "../components/Modal/modal";
-import { getOrder } from "../services/actions/order";
+import { getOrder, getOrderToken } from "../services/actions/order";
 import { CLEAR_INGREDIENTS } from "../services/actions/burgerConstructor";
 import { CLEAR_ORDER } from "../services/actions/order";
+import { isTokenExpired, getCookie } from "../utils/cookie";
 
 export function SetOrderModal() {
   const dispatch = useDispatch();
@@ -15,11 +16,17 @@ export function SetOrderModal() {
 
   const history = useHistory();
 
+
   const sendOrder = useMemo(() => {
     const burgerOrder = ingredients
       .map((item) => item.id)
       .concat(burgerBun, burgerBun);
-    dispatch(getOrder(burgerOrder));
+      console.log(isTokenExpired(getCookie("token")));
+    if (isTokenExpired(getCookie("token"))) {
+      dispatch(getOrderToken(burgerOrder));
+    } else {
+      dispatch(getOrder(burgerOrder));
+    }
   }, []);
 
   const handleClose = () => {

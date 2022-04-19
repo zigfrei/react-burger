@@ -1,4 +1,5 @@
 import { baseUrl } from "../../utils/constants";
+import {checkResponse, checkSuccess} from '../../utils/functions';
 
 export const POST_NEW_PASSWORD_REQUEST = "POST_NEW_PASSWORD_REQUEST";
 export const POST_NEW_PASSWORD_FAILED = "POST_NEW_PASSWORD_FAILED";
@@ -20,17 +21,11 @@ export function postNewPassword(password, token) {
         token: token,
       }),
     })
-      .then(function (res) {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.statusText}`);
-      })
+      .then(checkResponse)
       .then((res) => {
         if (res && res.success) {
           dispatch({
             type: POST_NEW_PASSWORD_SUCCESS,
-            // order: res.order.number,
           });
           console.log(res);
           console.log(password, token);

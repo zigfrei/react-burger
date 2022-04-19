@@ -26,6 +26,8 @@ import {
   SetOrderModal,
 } from "../../pages/index";
 import { Location } from "history";
+import { deleteCookie, setCookie, getCookie, isTokenExpired } from "../../utils/cookie";
+import { getUser, getUserToken } from "../../services/actions/auth.js";
 
 export default function App() {
 
@@ -34,6 +36,23 @@ export default function App() {
   useEffect(() => {
     dispatch(getBurgerIngredients());
   }, [dispatch]);
+
+  const initUser = () => {
+    const refreshToken = localStorage.getItem("refreshToken");
+    if (refreshToken && (refreshToken !== 'null')) {
+      if (isTokenExpired(getCookie("token"))) {
+        dispatch(getUserToken());
+      } else {
+        dispatch(getUser());
+      }
+    };
+  };
+
+  useEffect(() => {
+    initUser();
+  }, []);
+
+
 
   return (
     <div className={app.page}>
@@ -48,7 +67,7 @@ export default function App() {
 }
 
 function ModalSwitch() {
-  let location = useLocation<{
+  const location = useLocation<{
     background?: Location<{} | null | undefined>;
   }>();
 
@@ -80,9 +99,9 @@ function ModalSwitch() {
         <ProtectedRoute path="/profile" exact={true}>
           <ProfilePage />
         </ProtectedRoute>
-        <ProtectedRoute path="/ingredients/:id" exact={true}>
+        <Route path="/ingredients/:id" exact={true}>
           <IngredientPage />
-        </ProtectedRoute>
+        </Route>
         <Route>
             <NotFoundPage />
           </Route>
@@ -90,7 +109,7 @@ function ModalSwitch() {
 
       {/* Show the modal when a background page is set */}
       {background && (
-        <ProtectedRoute path="/ingredients/:id" children={<IngredientPageModal />} />
+        <Route path="/ingredients/:id" children={<IngredientPageModal />} />
       )}
       {background && (
         <ProtectedRoute path="/set-order" exact={true} children={<SetOrderModal />} />

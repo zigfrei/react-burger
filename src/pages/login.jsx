@@ -15,10 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginRequest } from "../services/actions/auth";
 
 export function LoginPage() {
-  // let redirectPath = useLocation().state.from.pathname;
-  // console.log(useLocation().state.from.pathname);
   const { state } = useLocation();
-  const { authorizationSuccess, userName } = useSelector((state) => state.auth);
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   const [form, setValue] = useState({ email: "", password: "" });
 
@@ -46,28 +44,17 @@ export function LoginPage() {
     [history]
   );
 
-  const consolle = useMemo(
-    () =>
-      console.log(
-        getCookie("token"),
-        "---",
-        localStorage.getItem("refreshToken")
-      ),
-    [getCookie("token"), localStorage.getItem("refreshToken")]
-  );
-
   const toLogin = useCallback(
     (e) => {
       e.preventDefault();
       dispatch(loginRequest(form));
-      console.log(localStorage.getItem("refreshToken"));
     },
     [form]
   );
 
   console.log(state);
 
-  if (localStorage.getItem("refreshToken")) {
+  if (isLoggedIn) {
     console.log(`Висит логин`);
     return (
       <Redirect
@@ -79,7 +66,7 @@ export function LoginPage() {
 
   return (
     <main className="formWrapper">
-      <form className="formMain">
+      <form className="formMain" onSubmit={toLogin}>
         <h2 className="text text_type_main-medium mb-6">Вход</h2>
         <div className="mb-6">
           <Input
@@ -97,12 +84,7 @@ export function LoginPage() {
             name={"password"}
           />
         </div>
-        <Button
-          className="mb-20"
-          type="primary"
-          size="medium"
-          onClick={toLogin}
-        >
+        <Button className="mb-20" type="primary" size="medium">
           Войти
         </Button>
         <div className="secondaryFormActions mt-20 mb-4">
