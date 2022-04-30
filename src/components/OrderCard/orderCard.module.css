@@ -1,0 +1,106 @@
+.main{
+  margin: 0;
+  padding: 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: 214px;
+  max-width: 584px;
+  border-radius: 40px;
+  background-color: #1C1C21;
+}
+
+.id{
+  display: flex;
+justify-content: space-between;
+}
+
+.structure{
+  display: flex;
+  justify-content: space-between;
+}
+
+.cost{
+  display: flex;
+  align-items: center;
+}
+
+.ingredients {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+}
+
+.ingredient {
+  width: 64px;
+  height: 64px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  background-image: linear-gradient(to right, #801AB2, #4C4CFF);
+  background-clip: content-box, border-box;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+
+}
+
+.ingredient:nth-of-type(2n) {
+  margin-left: -16px;
+  z-index: 4;
+}
+
+.ingredient:nth-of-type(3n) {
+  margin-left: -16px;
+  z-index: 3;
+}
+
+.ingredient:nth-of-type(4n) {
+  margin-left: -16px;
+  z-index: 2;
+}
+
+.ingredient:nth-of-type(5n) {
+  margin-left: -16px;
+  z-index: 1;
+}
+
+.ingredient:nth-of-type(6n) {
+  margin-left: -16px;
+  z-index: 0;
+}
+
+.ingredient:nth-of-type(n+7) {
+  display: none;
+}
+
+.ingredient:nth-of-type(6n)::before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  top: 2px;
+  background-color: #1C1C21;
+  opacity: .6;
+}
+
+.image {
+  object-fit: cover;
+  width: 60px;
+  height: 60px;
+  background: #1C1C21;
+  border-radius: 50%;
+}
+
+.span {
+  display: none;
+  position: absolute;
+}
+
+.ingredient:nth-child(6)>.span {
+  display: block;
+}

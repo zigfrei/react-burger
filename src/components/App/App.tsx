@@ -24,13 +24,18 @@ import {
   IngredientPageModal,
   NotFoundPage,
   SetOrderModal,
+  OrderFeed,
+  OrderInfoModal,
+  OrderInfo,
 } from "../../pages/index";
 import { Location } from "history";
-import { deleteCookie, setCookie, getCookie, isTokenExpired } from "../../utils/cookie";
+import {
+  getCookie,
+  isTokenExpired,
+} from "../../utils/cookie";
 import { getUser, getUserToken } from "../../services/actions/auth.js";
 
 export default function App() {
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,13 +44,13 @@ export default function App() {
 
   const initUser = () => {
     const refreshToken = localStorage.getItem("refreshToken");
-    if (refreshToken && (refreshToken !== 'null')) {
+    if (refreshToken && refreshToken !== "null") {
       if (isTokenExpired(getCookie("token"))) {
         dispatch(getUserToken());
       } else {
         dispatch(getUser());
       }
-    };
+    }
   };
 
   useEffect(() => {
@@ -68,14 +73,14 @@ export default function App() {
 
 function ModalSwitch() {
   const location = useLocation<{
-    background?: Location<{} | null | undefined>;
-  }>();
+    background?: Location<{} | null | undefined>;}>();
 
   const background = location.state?.background;
 
   return (
     <div>
       <Switch location={background || location}>
+
         <Route path="/" exact={true}>
           <main className={app.main}>
             <DndProvider backend={HTML5Backend}>
@@ -99,20 +104,40 @@ function ModalSwitch() {
         <ProtectedRoute path="/profile" exact={true}>
           <ProfilePage />
         </ProtectedRoute>
+        <ProtectedRoute path="/profile/orders" exact={true}>
+          <ProfilePage />
+        </ProtectedRoute>
+        <ProtectedRoute path="/profile/orders/:id" exact={true}>
+        <OrderInfo />
+        </ProtectedRoute>
         <Route path="/ingredients/:id" exact={true}>
           <IngredientPage />
         </Route>
+        <Route path="/feed" exact={true}>
+          <OrderFeed />
+        </Route>
+        <Route path="/feed/:id" exact={true}>
+          <OrderInfo />
+        </Route>
+
         <Route>
-            <NotFoundPage />
-          </Route>
+          <NotFoundPage />
+        </Route>
       </Switch>
 
       {/* Show the modal when a background page is set */}
       {background && (
         <Route path="/ingredients/:id" children={<IngredientPageModal />} />
       )}
+ {background && (<Route path="/profile/orders/:id" exact={true} children={<OrderInfoModal />} />)}
+      {background && (<Route path="/feed/:id" children={<OrderInfoModal />} />)}
+
       {background && (
-        <ProtectedRoute path="/set-order" exact={true} children={<SetOrderModal />} />
+        <ProtectedRoute
+          path="/set-order"
+          exact={true}
+          children={<SetOrderModal />}
+        />
       )}
     </div>
   );

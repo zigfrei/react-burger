@@ -4,8 +4,16 @@ import Constructor from "./Constructor/constructor.js";
 import OrderList from "./OrderList/orderList.js";
 import PersonalAccount from "./PersonalAccount/personalAccount.js";
 import appHeader from "./appHeader.module.css";
+import { useHistory } from "react-router-dom";
+import { useCallback } from "react";
 
-export default function AppHeader(props) {
+export default function AppHeader() {
+  const history = useHistory();
+
+  const toMain = useCallback(() => {
+    history.replace({ pathname: "/" });
+  }, [history]);
+
   return (
     <nav className={`pt-4 pb-4`}>
       <ul className={appHeader.ul}>
@@ -17,7 +25,7 @@ export default function AppHeader(props) {
             <OrderList />
           </li>
         </div>
-        <li className={appHeader.li}>
+        <li className={appHeader.li} onClick={toMain}>
           <Logo />
         </li>
         <li className={appHeader.lastLi}>
