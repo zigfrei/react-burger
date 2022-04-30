@@ -8,14 +8,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOrder } from "../../../services/actions/order";
 import { CLEAR_INGREDIENTS } from "../../../services/actions/burgerConstructor";
 import { CLEAR_ORDER } from "../../../services/actions/order";
+import { useLocation, Link, Redirect } from "react-router-dom";
+import { getCookie } from "../../../utils/cookie";
 
 export default function SetAnOrder() {
+  let location = useLocation();
   const { burgerIngredients } = useSelector((state) => state.burgerIngredients);
   const { ingredients, burgerBun } = useSelector(
     (state) => state.burgerConstructor
   );
-  const { order } = useSelector((state) => state.order);
-  const [isVisible, setIsVisible] = React.useState(false);
+  // const [isVisible, setIsVisible] = React.useState(false);
 
   const totalCost = useMemo(() => {
     let total = 0;
@@ -34,27 +36,28 @@ export default function SetAnOrder() {
 
   const dispatch = useDispatch();
 
-  const handleOpen = () => {
-    setIsVisible(true);
-    const burgerOrder = ingredients
-      .map((item) => item.id)
-      .concat(burgerBun, burgerBun);
-    dispatch(getOrder(burgerOrder));
-  };
-  const handleClose = () => {
-    setIsVisible(false);
-    dispatch({
-      type: CLEAR_INGREDIENTS,
-    });
-    dispatch({
-      type: CLEAR_ORDER,
-    });
-  };
-  const modal = (
-    <Modal onClose={handleClose}>
-      <OrderDetails />
-    </Modal>
-  );
+  // const handleOpen = () => {
+  //   // setIsVisible(true);
+
+  //   const burgerOrder = ingredients
+  //     .map((item) => item.id)
+  //     .concat(burgerBun, burgerBun);
+  //   dispatch(getOrder(burgerOrder));
+  // };
+  // const handleClose = () => {
+  //   setIsVisible(false);
+  //   dispatch({
+  //     type: CLEAR_INGREDIENTS,
+  //   });
+  //   dispatch({
+  //     type: CLEAR_ORDER,
+  //   });
+  // };
+  // const modal = (
+  //   <Modal onClose={handleClose}>
+  //     <OrderDetails />
+  //   </Modal>
+  // );
   return (
     <>
       <div className={`mt-10 ${setAnOrder.main}`}>
@@ -62,11 +65,19 @@ export default function SetAnOrder() {
           <p className="text text_type_digits-medium mr-2">{totalCost} </p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" onClick={handleOpen}>
+        <Link
+                className={setAnOrder.link}
+                to={{
+                  pathname: '/set-order',
+                  state: { background: location },
+                }}
+              >
+        <Button type="primary" size="large">
           Оформить заказ
         </Button>
+                </Link>
       </div>
-      {isVisible && modal}
+      {/* {isVisible && modal} */}
     </>
   );
 }

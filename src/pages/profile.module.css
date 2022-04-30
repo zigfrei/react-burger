@@ -1,0 +1,40 @@
+.menu{
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  height: 100%;
+  position: fixed;
+  /* top: 0;
+  left: 0; */
+  top: 36px;
+  justify-content: center;
+  align-items: start;
+
+}
+
+.menuElement{
+display: flex;
+align-items: center;
+width: 320px;
+height: 64px;
+cursor: pointer;
+text-decoration:unset;
+color: #8585AD;
+}
+
+.activeMenuElement{
+  display: flex;
+align-items: center;
+width: 320px;
+height: 64px;
+cursor: pointer;
+text-decoration:unset;
+  color: #F2F2F3;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  }

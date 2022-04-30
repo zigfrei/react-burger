@@ -1,0 +1,15 @@
+.middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 800px;
+
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.middle p {
+  margin: 20px;
+  text-align: center;
+}

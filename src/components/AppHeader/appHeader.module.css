@@ -12,10 +12,6 @@
   justify-content: center;
 }
 
-.a {
-  all: unset;
-}
-
 .listItem {
   display: flex;
   flex-wrap: nowrap;
