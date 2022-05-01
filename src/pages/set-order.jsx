@@ -16,19 +16,6 @@ export function SetOrderModal() {
 
   const history = useHistory();
 
-
-  const sendOrder = useMemo(() => {
-    const burgerOrder = ingredients
-      .map((item) => item.id)
-      .concat(burgerBun, burgerBun);
-      console.log(isTokenExpired(getCookie("token")));
-    if (isTokenExpired(getCookie("token"))) {
-      dispatch(getOrderToken(burgerOrder));
-    } else {
-      dispatch(getOrder(burgerOrder));
-    }
-  }, []);
-
   const handleClose = () => {
     dispatch({
       type: CLEAR_INGREDIENTS,

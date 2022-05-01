@@ -5,15 +5,13 @@ import { getUser } from "../../services/actions/auth";
 import { deleteCookie, setCookie, getCookie } from "../../utils/cookie";
 
 export function ProtectedRoute({ children, ...rest }) {
-  const { isLoggedIn, userName, userEmail } = useSelector(
-    (state) => state.auth
-  );
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   return (
     <Route
       {...rest}
       render={({ location }) =>
-      isLoggedIn ? (
+        isLoggedIn ? (
           children
         ) : (
           <Redirect

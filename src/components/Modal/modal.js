@@ -26,7 +26,13 @@ export const Modal = (props) => {
       <div className={modal.wrapper}>
         <div className={modal.popup}>
           <div className={"pl-10 pt-10 pr-10 " + modal.header}>
-            <h2 className={"text text_type_main-large "}>{props.title}</h2>
+            <div>
+              <h2 className={"text text_type_main-large "}>{props.title}</h2>
+              {/* <h2 className={"text text_type_digits-default "}>
+                {props.number}
+              </h2> */}
+            </div>
+
             <div className={modal.close}>
               <CloseIcon onClick={props.onClose} />
             </div>

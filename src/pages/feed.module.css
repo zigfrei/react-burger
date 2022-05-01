@@ -1,0 +1,80 @@
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-flow: column;
+}
+
+.scroll {
+  margin: 0;
+  padding: 0 8px 0 0;
+  max-height: 550px;
+  overflow-y: scroll;
+  direction: ltr;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scroll::-webkit-scrollbar-track {
+  background-color: #2f2f37;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
+
+.link {
+  all: unset;
+}
+
+.statsHeader {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-flow: column;
+}
+
+.doneNum {
+  color: #00cccc;
+}
+
+.bigNum {
+  text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25),
+    0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+.li {
+  all: unset;
+}
+
+.ul {
+  all: unset;
+}
+
+.statDone {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-flow: row;
+  gap: 8px;
+  max-height: 128px;
+  margin: 0;
+  padding: 0 8px 0 0;
+  overflow-y: scroll;
+  direction: ltr;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+}
+.statDone::-webkit-scrollbar {
+  width: 10px;
+}
+
+.statDone::-webkit-scrollbar-track {
+  background-color: #2f2f37;
+}
+
+.statDone::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
+
