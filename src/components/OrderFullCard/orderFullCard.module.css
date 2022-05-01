@@ -20,7 +20,6 @@
   width: 640px;
   overflow-y: scroll;
   direction: ltr;
-  scrollbar-color: #d4aa70 #e4e4e4;
   scrollbar-width: thin;
   scroll-behavior: smooth;
 }

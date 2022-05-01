@@ -27,8 +27,6 @@ export function OrderInfoModal() {
       : ordersUser.find((element) => element._id === id);
 
   const onClose = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
     history.goBack();
   };
 

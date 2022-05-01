@@ -10,6 +10,7 @@ import {
 import { useEffect } from "react";
 
 export function OrderInfo() {
+
   const { burgerIngredients } = useSelector((state) => state.burgerIngredients);
   const { orders, ordersUser, totalToday, total } = useSelector(
     (state) => state.ws
@@ -18,9 +19,10 @@ export function OrderInfo() {
   const dispatch = useDispatch();
   const match = useRouteMatch();
 
+
   useEffect(() => {
-    if (match.path === "/feed/:id") {
-      dispatch({ type: wsConnectionStart() });
+    if (match.path == `/feed/:id`) {
+      dispatch(wsConnectionStart());
       return () => {
         dispatch(wsConnectionFinish());
       };
@@ -32,8 +34,9 @@ export function OrderInfo() {
     }
   }, []);
 
+
   const order =
-    match.path === "/feed/:id"
+    match.path == `/feed/:id`
       ? orders.find((element) => element._id === id)
       : ordersUser.find((element) => element._id === id);
 

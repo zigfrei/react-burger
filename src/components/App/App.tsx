@@ -11,7 +11,7 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  useLocation,
+  useLocation, useHistory
 } from "react-router-dom";
 import { ProtectedRoute } from "../ProtectedRoute/protected-route.jsx";
 import {
@@ -54,6 +54,7 @@ export default function App() {
     initUser();
   }, []);
 
+
   return (
     <div className={app.page}>
       <Router>
@@ -67,11 +68,18 @@ export default function App() {
 }
 
 function ModalSwitch() {
+  const history = useHistory();
   const location = useLocation<{
     background?: Location<{} | null | undefined>;
   }>();
 
   const background = location.state?.background;
+
+  useEffect(() => {
+    history.replace({ pathname: location.pathname, state: undefined })
+  }, [])
+
+console.log(location, background);
 
   return (
     <div>
@@ -115,6 +123,7 @@ function ModalSwitch() {
           <OrderInfo />
         </Route>
 
+
         <Route>
           <NotFoundPage />
         </Route>
@@ -125,7 +134,7 @@ function ModalSwitch() {
         <Route path="/ingredients/:id" children={<IngredientPageModal />} />
       )}
       {background && (
-        <Route
+        <ProtectedRoute
           path="/profile/orders/:id"
           exact={true}
           children={<OrderInfoModal />}

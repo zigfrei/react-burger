@@ -42,6 +42,7 @@ export const wsReducer = (state = initialState, action) => {
         wsConnected: false,
         error: undefined,
         orders: [],
+        ordersUser: [],
         total: 0,
         totalToday: 0,
       };
@@ -52,6 +53,7 @@ export const wsReducer = (state = initialState, action) => {
         wsConnected: false,
         error: undefined,
         orders: [],
+        ordersUser: [],
         total: 0,
         totalToday: 0,
       };

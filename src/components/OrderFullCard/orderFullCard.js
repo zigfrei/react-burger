@@ -3,8 +3,12 @@ import { orderDate } from "../../utils/functions";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useMemo } from "react";
+import { useLocation } from "react-router-dom";
 
 export default function OrderFullCard(order) {
+  let location = useLocation();
+  const background = location.state?.background;
+
   const { burgerIngredients } = useSelector((state) => state.burgerIngredients);
 
   const sortSameIngredients = {};
@@ -66,8 +70,7 @@ export default function OrderFullCard(order) {
         </p>
       );
     } else {
-      return(<p className={"text text_type_main-default mb-15"}>Готовится</p>);
-
+      return <p className={"text text_type_main-default mb-15"}>Готовится</p>;
     }
   };
 
@@ -76,9 +79,11 @@ export default function OrderFullCard(order) {
   return (
     <div className="mb-4">
       <li className={orderFullCard.main}>
-      <h2 className={"text text_type_digits-default " + orderFullCard.modalName}>
-                #{order.number}
-              </h2>
+        {background && <h2
+          className={"text text_type_digits-default " + orderFullCard.modalName}
+        >
+          #{order.number}
+        </h2>}
         <p className="text text_type_main-medium mb-3">{order.name}</p>
         {statusOrder(order)}
         <p className="text text_type_main-medium mb-6">Состав:</p>
