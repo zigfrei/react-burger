@@ -5,8 +5,8 @@ import { useLocation, Link } from "react-router-dom";
 import OrderCard from "../components/OrderCard/orderCard.js";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
-  WS_CONNECTION_START,
-  WS_CONNECTION_FINISH,
+  wsConnectionStart,
+  wsConnectionFinish,
 } from "../services/actions/ws";
 
 export const OrderFeed = () => {
@@ -15,9 +15,9 @@ export const OrderFeed = () => {
   const { orders, totalToday, total } = useSelector((state) => state.ws);
 
   useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START });
+    dispatch(wsConnectionStart());
     return () => {
-      dispatch({ type: WS_CONNECTION_FINISH });
+      dispatch(wsConnectionFinish());
     };
   }, []);
 

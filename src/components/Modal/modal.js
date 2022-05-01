@@ -28,9 +28,9 @@ export const Modal = (props) => {
           <div className={"pl-10 pt-10 pr-10 " + modal.header}>
             <div>
               <h2 className={"text text_type_main-large "}>{props.title}</h2>
-              <h2 className={"text text_type_digits-default "}>
+              {/* <h2 className={"text text_type_digits-default "}>
                 {props.number}
-              </h2>
+              </h2> */}
             </div>
 
             <div className={modal.close}>

@@ -23,11 +23,15 @@ export default function SetAnOrder() {
     .concat(burgerBun, burgerBun);
 
   const onClick = () => {
-    if (isTokenExpired(getCookie("token"))) {
-      dispatch(getOrderToken(burgerOrder));
-    } else {
-      dispatch(getOrder(burgerOrder));
+    const refreshToken = localStorage.getItem("refreshToken");
+    if (refreshToken && refreshToken !== "null") {
+      if (isTokenExpired(getCookie("token"))) {
+        dispatch(getOrderToken(burgerOrder));
+      } else {
+        dispatch(getOrder(burgerOrder));
+      }
     }
+
   };
 
   const totalCost = useMemo(() => {

@@ -66,7 +66,8 @@ export default function OrderFullCard(order) {
         </p>
       );
     } else {
-      <p className={"text text_type_main-default mb-15"}>Готовится</p>;
+      return(<p className={"text text_type_main-default mb-15"}>Готовится</p>);
+
     }
   };
 
@@ -75,6 +76,9 @@ export default function OrderFullCard(order) {
   return (
     <div className="mb-4">
       <li className={orderFullCard.main}>
+      <h2 className={"text text_type_digits-default " + orderFullCard.modalName}>
+                #{order.number}
+              </h2>
         <p className="text text_type_main-medium mb-3">{order.name}</p>
         {statusOrder(order)}
         <p className="text text_type_main-medium mb-6">Состав:</p>

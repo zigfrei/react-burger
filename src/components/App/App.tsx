@@ -29,10 +29,7 @@ import {
   OrderInfo,
 } from "../../pages/index";
 import { Location } from "history";
-import {
-  getCookie,
-  isTokenExpired,
-} from "../../utils/cookie";
+import { getCookie, isTokenExpired } from "../../utils/cookie";
 import { getUser, getUserToken } from "../../services/actions/auth.js";
 
 export default function App() {
@@ -57,8 +54,6 @@ export default function App() {
     initUser();
   }, []);
 
-
-
   return (
     <div className={app.page}>
       <Router>
@@ -73,14 +68,14 @@ export default function App() {
 
 function ModalSwitch() {
   const location = useLocation<{
-    background?: Location<{} | null | undefined>;}>();
+    background?: Location<{} | null | undefined>;
+  }>();
 
   const background = location.state?.background;
 
   return (
     <div>
       <Switch location={background || location}>
-
         <Route path="/" exact={true}>
           <main className={app.main}>
             <DndProvider backend={HTML5Backend}>
@@ -108,7 +103,7 @@ function ModalSwitch() {
           <ProfilePage />
         </ProtectedRoute>
         <ProtectedRoute path="/profile/orders/:id" exact={true}>
-        <OrderInfo />
+          <OrderInfo />
         </ProtectedRoute>
         <Route path="/ingredients/:id" exact={true}>
           <IngredientPage />
@@ -129,8 +124,14 @@ function ModalSwitch() {
       {background && (
         <Route path="/ingredients/:id" children={<IngredientPageModal />} />
       )}
- {background && (<Route path="/profile/orders/:id" exact={true} children={<OrderInfoModal />} />)}
-      {background && (<Route path="/feed/:id" children={<OrderInfoModal />} />)}
+      {background && (
+        <Route
+          path="/profile/orders/:id"
+          exact={true}
+          children={<OrderInfoModal />}
+        />
+      )}
+      {background && <Route path="/feed/:id" children={<OrderInfoModal />} />}
 
       {background && (
         <ProtectedRoute

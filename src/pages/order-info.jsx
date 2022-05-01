@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import orderInfo from "./order-info.module.css";
 import OrderFullCard from "../components/OrderFullCard/orderFullCard";
 import {
-  WS_CONNECTION_START_INIT,
-  WS_CONNECTION_START,
-  WS_CONNECTION_FINISH,
+  wsUserConnectionStart,
+  wsConnectionStart,
+  wsConnectionFinish,
 } from "../services/actions/ws";
 import { useEffect } from "react";
 
@@ -20,14 +20,14 @@ export function OrderInfo() {
 
   useEffect(() => {
     if (match.path === "/feed/:id") {
-      dispatch({ type: WS_CONNECTION_START });
+      dispatch({ type: wsConnectionStart() });
       return () => {
-        dispatch({ type: WS_CONNECTION_FINISH });
+        dispatch(wsConnectionFinish());
       };
     } else {
-      dispatch({ type: WS_CONNECTION_START_INIT });
+      dispatch(wsUserConnectionStart());
       return () => {
-        dispatch({ type: WS_CONNECTION_FINISH });
+        dispatch(wsConnectionFinish());
       };
     }
   }, []);
