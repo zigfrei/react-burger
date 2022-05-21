@@ -1,13 +1,17 @@
 import burgerConstructor from "./burgerConstructor.module.css";
 import {
-  ADD_INGREDIENT,
-  CHANGE_BURGER_BUN,
-  SORT_INGREDIENT,
+  // ADD_INGREDIENT,
+  // CHANGE_BURGER_BUN,
+  // SORT_INGREDIENT,
+  addIngredient,
+  changeBurgerBun,
+  sortIngredient,
 } from "../../services/actions/burgerConstructor";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ArrowDownIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import SetAnOrder from "./SetAnOrder/setAnOrder.js";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { v4 as uuidv4 } from "uuid";
 import { useDrop } from "react-dnd";
 import { TemplateConstructorIngredient } from "./TemplateConstructorIngredient/templateConstructorIngredient";
@@ -26,16 +30,18 @@ export default function BurgerConstructor() {
     accept: "ingredient",
     drop(item) {
       if (item.type !== "bun") {
-        dispatch({
-          type: ADD_INGREDIENT,
-          id: item.id,
-          key: uuidv4(),
-        });
+        // dispatch({
+        //   type: ADD_INGREDIENT,
+        //   id: item.id,
+        //   key: uuidv4(),
+        // });
+        dispatch(addIngredient(item.id, uuidv4()));
       } else {
-        dispatch({
-          type: CHANGE_BURGER_BUN,
-          id: item.id,
-        });
+        dispatch(changeBurgerBun(item.id));
+        // dispatch({
+        //   type: CHANGE_BURGER_BUN,
+        //   id: item.id,
+        // });
       }
     },
     collect: (monitor) => ({
@@ -47,10 +53,11 @@ export default function BurgerConstructor() {
     const changedIngredient = ingredients.slice();
     changedIngredient.splice(dragIndex, 1);
     changedIngredient.splice(hoverIndex, 0, ingredients[dragIndex]);
-    dispatch({
-      type: SORT_INGREDIENT,
-      ingredients: changedIngredient,
-    });
+    // dispatch({
+    //   type: SORT_INGREDIENT,
+    //   ingredients: changedIngredient,
+    // });
+    dispatch(sortIngredient(changedIngredient));
   };
 
   const border = isHover ? "2px solid #4C4CFF" : "transparent";

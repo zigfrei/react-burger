@@ -40,7 +40,8 @@ const composeEnhancers =
 
 const enhancer = composeEnhancers( applyMiddleware (thunk, socketMiddleware(wsUrl, wsActions)));
 
-const store = createStore(rootReducer, enhancer);
+export const store = createStore(rootReducer, enhancer);
+//const store = createStore(rootReducer, enhancer);
 
 ReactDOM.render(
   <React.StrictMode>

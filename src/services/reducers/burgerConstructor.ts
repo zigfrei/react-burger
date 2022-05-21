@@ -4,14 +4,22 @@ import {
   DELETE_INGREDIENT,
   SORT_INGREDIENT,
   CLEAR_INGREDIENTS,
-} from "../actions/burgerConstructor";
+} from "../constants";
+import {TIngredient, TBurgerBun} from "../types/data"
 
-const initialState = {
+import {TBurgerConstructorActions} from '../actions/burgerConstructor'
+
+type TBurgerConstructorState = {
+  ingredients: ReadonlyArray<TIngredient>;
+  burgerBun: ReadonlyArray<TBurgerBun>;
+}
+
+const initialState: TBurgerConstructorState= {
   ingredients: [],
   burgerBun: [],
 };
 
-export const burgerConstructorReducer = (state = initialState, action) => {
+export const burgerConstructorReducer = (state = initialState, action:TBurgerConstructorActions) => {
   switch (action.type) {
     case ADD_INGREDIENT: {
       return {
