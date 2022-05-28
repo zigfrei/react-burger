@@ -1,8 +1,5 @@
-import { Redirect, Route, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../../services/actions/auth";
-import { deleteCookie, setCookie, getCookie } from "../../utils/cookie";
+import { Redirect, Route } from "react-router-dom";
+import { useSelector } from "../../services/hooks";
 
 export function ProtectedRoute({ children, ...rest }) {
   const { isLoggedIn } = useSelector((state) => state.auth);

@@ -1,8 +1,8 @@
-import AppHeader from "../AppHeader/appHeader.js";
-import { BurgerIngredients } from "../BurgerIngredients/burgerIngredients.js";
+import AppHeader from "../AppHeader/appHeader";
+import { BurgerIngredients } from "../BurgerIngredients/burgerIngredients";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import BurgerConstructor from "../BurgerConstructor/burgerConstructor.js";
+import BurgerConstructor from "../BurgerConstructor/burgerConstructor";
 import app from "./app.module.css";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -13,7 +13,7 @@ import {
   Switch,
   useLocation, useHistory
 } from "react-router-dom";
-import { ProtectedRoute } from "../ProtectedRoute/protected-route.jsx";
+import { ProtectedRoute } from "../ProtectedRoute/protected-route";
 import {
   LoginPage,
   RegisterPage,
@@ -30,7 +30,7 @@ import {
 } from "../../pages/index";
 import { Location } from "history";
 import { getCookie, isTokenExpired } from "../../utils/cookie";
-import { getUser, getUserToken } from "../../services/actions/auth.js";
+import { getUser, getUserToken } from "../../services/actions/auth";
 
 export default function App() {
   const dispatch = useDispatch();
