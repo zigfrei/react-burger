@@ -13,30 +13,30 @@ interface ISortSameIngredients {
   [name: string]: IIngredient;
 }
 
-
-export default function OrderCard(order:TOrder) {
+export default function OrderCard(order: TOrder) {
   const { burgerIngredients } = useSelector((state) => state.burgerIngredients);
 
   const sortSameIngredients: ISortSameIngredients = {};
 
   order.ingredients.forEach((element) => {
-    const ingredient = burgerIngredients.find(
-      (el) => el._id === element
-    );
+    const ingredient = burgerIngredients.find((el) => el._id === element);
 
     if (ingredient !== undefined) {
-      element in sortSameIngredients ?
-      sortSameIngredients[element].count += 1 :
-      sortSameIngredients[element] = {
-        ingredient: ingredient,
-        count: 1,
-      };
+      element in sortSameIngredients
+        ? (sortSameIngredients[element].count += 1)
+        : (sortSameIngredients[element] = {
+            ingredient: ingredient,
+            count: 1,
+          });
     }
   });
   const sortSameIngredientsArray = Object.values(sortSameIngredients);
 
   const total = useMemo(() => {
-    return sortSameIngredientsArray.reduce((acc, item) => acc + (item.ingredient.price)*item.count, 0);
+    return sortSameIngredientsArray.reduce(
+      (acc, item) => acc + item.ingredient.price * item.count,
+      0
+    );
   }, [order.ingredients]);
 
   const ingredientsIcons = sortSameIngredientsArray.map((item) => {
@@ -73,4 +73,3 @@ export default function OrderCard(order:TOrder) {
     </div>
   );
 }
-

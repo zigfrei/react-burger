@@ -4,7 +4,6 @@ import {
   changeTabReducer,
 } from "./burgerIngredients";
 import { burgerConstructorReducer } from "./burgerConstructor";
-// import { modalReducer } from "./modal";
 import { orderReducer } from "./order";
 import { passwordResetReducer } from "./forgot-password";
 import { newPasswordReducer } from "./reset-password";

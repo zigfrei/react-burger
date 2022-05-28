@@ -348,11 +348,6 @@ export const patchUser: AppThunk = (
       .then((res) => {
         console.log("Замена инфы", res);
         if (res && res.success) {
-          // dispatch({
-          //   type: PATCH_USER_SUCCESS,
-          //   userName: res.user.name,
-          //   userEmail: res.user.email,
-          // });
           dispatch(patchUserSuccesss(res.user.name, res.user.email));
         } else {
           dispatch(authFailed());

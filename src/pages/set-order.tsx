@@ -7,9 +7,6 @@ import { clearOrder } from "../services/actions/order";
 
 export function SetOrderModal() {
   const dispatch = useDispatch();
-  // const { ingredients, burgerBun } = useSelector(
-  //   (state) => state.burgerConstructor
-  // );
 
   const history = useHistory<History>();
 

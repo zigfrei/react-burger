@@ -11,7 +11,6 @@ type TForgotPasswordState = {
 };
 
 const initialState: TForgotPasswordState = {
-  // passwordReset: null,
   passwordResetRequest: false,
   passwordResetFailed: false,
 };
@@ -32,7 +31,6 @@ export const passwordResetReducer = (
         ...state,
         passwordResetRequest: false,
         passwordResetFailed: false,
-        // passwordReset: action.passwordReset,
       };
     }
     case POST_PASSWORD_RESET_FAILED: {

@@ -83,7 +83,6 @@ export const wsReducer = (state = initialState, action:TWsActions) => {
         ...state,
         ordersUser: action.payload.orders,
         totalUser: action.payload.total,
-        totalTodayUser: action.payload.totalToday,
         error: undefined,
       };
     }

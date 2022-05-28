@@ -42,15 +42,6 @@ export type TOrder = {
   readonly updatedAt: string;
   readonly name: string;
 };
-// export type TOrder = {
-//   ingredients?: readonly string[] | undefined;
-//   _id?: string | undefined;
-//   status?: string | undefined;
-//   number?: number | undefined;
-//   createdAt?: string | undefined;
-//   updatedAt?: string | undefined;
-//   name?: string | undefined;
-// };
 
 export type TUrlID = {
   id: string;
