@@ -5,21 +5,24 @@ import {
   SORT_INGREDIENT,
   CLEAR_INGREDIENTS,
 } from "../constants";
-import {TIngredient, TBurgerBun} from "../types/data"
+import { TIngredient, TBurgerBun } from "../types/data";
 
-import {TBurgerConstructorActions} from '../actions/burgerConstructor'
+import { TBurgerConstructorActions } from "../actions/burgerConstructor";
 
 type TBurgerConstructorState = {
-  ingredients: ReadonlyArray<TIngredient>;
-  burgerBun: ReadonlyArray<TBurgerBun>;
-}
-
-const initialState: TBurgerConstructorState= {
-  ingredients: [],
-  burgerBun: [],
+  readonly  ingredients: ReadonlyArray<TIngredient>;
+  readonly burgerBun: string;
 };
 
-export const burgerConstructorReducer = (state = initialState, action:TBurgerConstructorActions) => {
+const initialState: TBurgerConstructorState = {
+  ingredients: [],
+  burgerBun: '',
+};
+
+export const burgerConstructorReducer = (
+  state = initialState,
+  action: TBurgerConstructorActions
+) => {
   switch (action.type) {
     case ADD_INGREDIENT: {
       return {
@@ -57,7 +60,7 @@ export const burgerConstructorReducer = (state = initialState, action:TBurgerCon
     case CLEAR_INGREDIENTS: {
       return {
         ingredients: [],
-        burgerBun: [],
+        burgerBun: '',
       };
     }
 

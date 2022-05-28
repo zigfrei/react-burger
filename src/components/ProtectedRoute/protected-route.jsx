@@ -1,6 +1,7 @@
 import { Redirect, Route, useLocation } from "react-router-dom";
 import { FC, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { getUser } from "../../services/actions/auth";
 import { deleteCookie, setCookie, getCookie } from "../../utils/cookie";
 import { RouteProps } from 'react-router';
